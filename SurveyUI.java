@@ -85,9 +85,11 @@ public class SurveyUI
    {
       public void actionPerformed(ActionEvent e)
       {
-         JOptionPane.showMessageDialog(null ,"You clicked on the \"New\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+         /*JOptionPane.showMessageDialog(null ,"You clicked on the \"New\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
          splashIcon= new ImageIcon(getImageFile("TestImage_Inv.png")); 
-         splashLabel.setIcon(splashIcon);
+         splashLabel.setIcon(splashIcon);*/
+         
+         QuestionFrame testQ= new QuestionFrame();
       }
    }
    
@@ -102,15 +104,62 @@ public class SurveyUI
    private class QuestionFrame extends JFrame
    {
       private JFrame questionFrame;
-      private JTextField questionField;
+      private JPanel questionPanel;
       private JPanel optionPanel;
+      private JTextArea questionArea;
       private ButtonGroup optionGroup;
       private JRadioButton[] options;
       private JButton chooseButton;
       
       public QuestionFrame()
       {
-        
+         questionFrame= new JFrame("Question Test");
+         questionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         questionFrame.setLayout(new BoxLayout(questionFrame.getContentPane(), BoxLayout.X_AXIS));
+         questionFrame.setResizable(false);
+         
+         questionPanel= new JPanel();
+         questionPanel.setLayout(new FlowLayout());
+         
+         questionArea= new JTextArea("This is a sample question's text");
+         questionArea.setPreferredSize(new Dimension(550, 450));
+         questionArea.setEditable(false);
+         questionPanel.add(questionArea);
+         
+         questionFrame.add(questionPanel);
+         questionFrame.add(new JSeparator(SwingConstants.VERTICAL));
+         
+         optionPanel= new JPanel();
+         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
+         optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         
+         JRadioButton[] options= new JRadioButton[3];
+         options[0]= new JRadioButton("Option 1");
+         options[0].setSelected(true);
+         options[1]= new JRadioButton("Option 2");
+         options[2]= new JRadioButton("Option 3");
+
+         optionGroup= new ButtonGroup();
+         for(int i=0; i<options.length; i++)
+         {
+            options[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+            optionGroup.add(options[i]);
+            optionPanel.add(options[i]);
+         }
+         
+         chooseButton= new JButton("Choose");
+         chooseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         optionPanel.add(Box.createRigidArea(new Dimension(0,15)));
+         optionPanel.add(chooseButton);
+         
+         optionPanel.add(Box.createVerticalGlue());
+         optionPanel.add(cpLabel);
+         optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         
+         questionFrame.add(optionPanel);
+         questionFrame.add(Box.createRigidArea(new Dimension(8,0)));
+         questionFrame.pack();
+         questionFrame.setVisible(true);
       }
       
       private class OptionListener implements ActionListener
