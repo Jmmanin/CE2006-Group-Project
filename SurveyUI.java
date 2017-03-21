@@ -14,18 +14,18 @@ import java.io.*;
 
 public class SurveyUI
 {
-   JFrame startFrame;
-   JPanel leftPanel;
-   JPanel rightPanel;
-   ImageIcon splashIcon;
-   JLabel splashLabel;
-   JButton newButton;
-   JButton loadButton;
-   JLabel cpLabel;
+   private JFrame startFrame;
+   private JPanel leftPanel;
+   private JPanel rightPanel;
+   private ImageIcon splashIcon;
+   private JLabel splashLabel;
+   private JButton newButton;
+   private JButton loadButton;
+   private JLabel cpLabel;
 
    public SurveyUI()
    {         
-      startFrame= new JFrame("GUI Test");
+      startFrame= new JFrame("SurveyUI Test");
       startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       startFrame.setLayout(new BoxLayout(startFrame.getContentPane(), BoxLayout.X_AXIS));
       startFrame.setResizable(false);
@@ -91,15 +91,91 @@ public class SurveyUI
       {
          if(e.getActionCommand().equals("new"))
          {
-            /*JOptionPane.showMessageDialog(null ,"You clicked on the \"New\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
-            splashIcon= new ImageIcon(getImageFile("TestImage_Inv.png")); 
-            splashLabel.setIcon(splashIcon);*/
-         
             QuestionFrame testQ= new QuestionFrame();
          }
          else
          {
+            new LoadDialog();
+         }
+      }
+   }
+    
+   private class LoadDialog extends JDialog implements ActionListener
+   {   
+      private JDialog loadDialog;
+      private JPanel leftPanel;
+      private JPanel rightPanel;
+      private JTextArea serverArea;
+      private JTextArea localArea;
+      private JButton loadButton;
+      private JButton backButton;
+   
+      public LoadDialog()
+      {
+         loadDialog= new JDialog(startFrame, "Load Previous Results", true);
+         loadDialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+         loadDialog.setLayout(new BoxLayout(loadDialog.getContentPane(), BoxLayout.X_AXIS));
+         loadDialog.setResizable(false);
+         
+         leftPanel= new JPanel();
+         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+         leftPanel.add(Box.createRigidArea(new Dimension(0,4)));
+         
+         serverArea= new JTextArea("Sample Server Results");
+         serverArea.setPreferredSize(new Dimension(550, 250));
+         serverArea.setEditable(false);
+         serverArea.setLineWrap(true);
+         leftPanel.add(serverArea);
+         leftPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         
+         localArea= new JTextArea("Sample Local Results");
+         localArea.setPreferredSize(new Dimension(550, 250));
+         localArea.setEditable(false);
+         localArea.setLineWrap(true);
+         leftPanel.add(localArea);
+         leftPanel.add(Box.createRigidArea(new Dimension(0,4)));
+            
+         loadDialog.add(Box.createRigidArea(new Dimension(8,0)));
+         loadDialog.add(leftPanel);
+         loadDialog.add(new JSeparator(SwingConstants.VERTICAL));
+      
+         rightPanel= new JPanel();
+         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+                  
+         loadButton= new JButton("Load");
+         loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         loadButton.setActionCommand("load");
+         loadButton.addActionListener(this);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         rightPanel.add(loadButton);
+      
+         backButton= new JButton("Back");
+         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         backButton.setActionCommand("back");
+         backButton.addActionListener(this);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         rightPanel.add(backButton);
+         rightPanel.add(Box.createVerticalGlue());
+      
+         rightPanel.add(cpLabel);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+      
+         loadDialog.add(rightPanel);
+         loadDialog.add(Box.createRigidArea(new Dimension(8,0)));
+         loadDialog.pack();
+         loadDialog.setVisible(true);
+      }
+      
+      public void actionPerformed(ActionEvent e)
+      {
+         if(e.getActionCommand().equals("load"))
+         {
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+         }
+         else
+         {
+            loadDialog.setVisible(false);
+            loadDialog.dispose();
          }
       }
    }
@@ -129,6 +205,7 @@ public class SurveyUI
          questionArea= new JTextArea("This is a sample question's text");
          questionArea.setPreferredSize(new Dimension(550, 450));
          questionArea.setEditable(false);
+         questionArea.setLineWrap(true);
          questionPanel.add(questionArea);
          
          questionFrame.add(questionPanel);
@@ -193,7 +270,7 @@ public class SurveyUI
          }
          else
          {
-
+         
          }
       }
    }

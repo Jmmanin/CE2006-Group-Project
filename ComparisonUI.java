@@ -1,27 +1,29 @@
 /*
 Jeremy Manin
 CE2006- Team Secret
-Term Project- ResultUI
-User Interface for presenting results to the user
+Term Project- ComparisonUI
+User Interface for the results comparison section of the program
 */
 
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class ResultUI
+public class ComparisonUI
 {
    private JFrame theFrame;
    private JPanel leftPanel;
+   private JPanel centerPanel;
    private JPanel rightPanel;
-   private JTextArea resultArea;
+   private JTextArea resultArea1;
+   private JTextArea resultArea2;
    private JButton saveButton;
    private JButton compareButton;
    private JButton newButton;
    private JButton closeButton;
    private JLabel cpLabel;
-
-   public ResultUI()
+   
+   public ComparisonUI()
    {
       theFrame= new JFrame("ResultUI Test");
       theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,13 +33,22 @@ public class ResultUI
       leftPanel= new JPanel();
       leftPanel.setLayout(new FlowLayout());
          
-      resultArea= new JTextArea("This is a sample result");
-      resultArea.setPreferredSize(new Dimension(550, 450));
-      resultArea.setEditable(false);
-      resultArea.setLineWrap(true);
-      leftPanel.add(resultArea);
-            
+      resultArea1= new JTextArea("This is a sample result");
+      resultArea1.setPreferredSize(new Dimension(350, 450));
+      resultArea1.setEditable(false);
+      resultArea1.setLineWrap(true);
+      leftPanel.add(resultArea1);
       theFrame.add(leftPanel);
+      
+      centerPanel= new JPanel();
+      centerPanel.setLayout(new FlowLayout());
+         
+      resultArea2= new JTextArea("This is a sample comparison result");
+      resultArea2.setPreferredSize(new Dimension(350, 450));
+      resultArea2.setEditable(false);
+      resultArea2.setLineWrap(true);
+      centerPanel.add(resultArea2);
+      theFrame.add(centerPanel);
       theFrame.add(new JSeparator(SwingConstants.VERTICAL));
       
       rightPanel= new JPanel();
@@ -84,23 +95,23 @@ public class ResultUI
       theFrame.pack();
       theFrame.setVisible(true);
    }
-   
+
    private class ResultListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
          if(e.getActionCommand().equals("save"))
          {
-            resultArea.append(" *save clicked*");
+            resultArea1.append(" *save clicked*");
             new SaveDialog();         
          }
          else if(e.getActionCommand().equals("compare"))
          {
-            resultArea.append(" *compare clicked*");         
+            resultArea1.append(" *compare clicked*");         
          }
          else if(e.getActionCommand().equals("new"))
          {
-            resultArea.append(" *new clicked*");         
+            resultArea1.append(" *new clicked*");         
          }
          else
          {
@@ -183,8 +194,9 @@ public class ResultUI
       }
    }
 
+   
    public static void main(String args[])
    {
-      new ResultUI();
+      new ComparisonUI();
    }
 }
