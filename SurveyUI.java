@@ -2,7 +2,7 @@
 Jeremy Manin
 CE2006- Team Secret
 Term Project- SurveyUI
-INSERT DESCRIPTION
+User Interface for the survey section of the program
 */
 
 import java.awt.*;
@@ -55,7 +55,7 @@ public class SurveyUI
       rightPanel.add(loadButton);
       rightPanel.add(Box.createVerticalGlue());
       
-      cpLabel= new JLabel("(C) Copyright Info");
+      cpLabel= new JLabel("<html><center>CE2006 Term Project<br>Team Secret<br>S2 2017</center></html>");
       cpLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
       rightPanel.add(cpLabel);
       rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
@@ -81,7 +81,7 @@ public class SurveyUI
       return(null);
    }
    
-   class NewListener implements ActionListener
+   private class NewListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
@@ -93,7 +93,7 @@ public class SurveyUI
       }
    }
    
-   class LoadListener implements ActionListener
+   private class LoadListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
@@ -109,6 +109,8 @@ public class SurveyUI
       private JTextArea questionArea;
       private ButtonGroup optionGroup;
       private JRadioButton[] options;
+      private ButtonGroup importanceGroup;
+      private JRadioButton[] importance;
       private JButton chooseButton;
       
       public QuestionFrame()
@@ -146,9 +148,26 @@ public class SurveyUI
             optionGroup.add(options[i]);
             optionPanel.add(options[i]);
          }
+
+         optionPanel.add(Box.createRigidArea(new Dimension(0,15)));
+
+         JRadioButton[] importance= new JRadioButton[3];
+         importance[0]= new JRadioButton("Very Important");
+         importance[0].setSelected(true);
+         importance[1]= new JRadioButton("Important");
+         importance[2]= new JRadioButton("Not Important");
+
+         importanceGroup= new ButtonGroup();
+         for(int i=0; i<importance.length; i++)
+         {
+            importance[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+            importanceGroup.add(importance[i]);
+            optionPanel.add(importance[i]);
+         }
          
          chooseButton= new JButton("Choose");
          chooseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         chooseButton.addActionListener(new ChooseListener());
          optionPanel.add(Box.createRigidArea(new Dimension(0,15)));
          optionPanel.add(chooseButton);
          
@@ -174,7 +193,7 @@ public class SurveyUI
       {
          public void actionPerformed(ActionEvent e)
          {
-         
+            JOptionPane.showMessageDialog(null ,"You clicked on the \"Choose\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
          }
       }
    }
