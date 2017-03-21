@@ -58,13 +58,17 @@ public class LogInUI
       buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
       buttonPanel.add(Box.createRigidArea(new Dimension(8,0)));
    
+      LogInListener theListener= new LogInListener();
+   
       newUserButton= new JButton("New User");
-      newUserButton.addActionListener(new NewUserListener());
+      newUserButton.setActionCommand("new");
+      newUserButton.addActionListener(theListener);
       buttonPanel.add(newUserButton);
       buttonPanel.add(Box.createHorizontalGlue());
    
       logInButton= new JButton("Log In");
-      logInButton.addActionListener(new LogInListener());
+      logInButton.setActionCommand("log");
+      logInButton.addActionListener(theListener);
       buttonPanel.add(logInButton);
       buttonPanel.add(Box.createRigidArea(new Dimension(8,0)));
       
@@ -73,25 +77,24 @@ public class LogInUI
       logInFrame.setVisible(true);
    }
    
-   private class NewUserListener implements ActionListener
-   {
-      public void actionPerformed(ActionEvent e)
-      {
-         new NewUserDialog();
-      }
-   }
-   
    private class LogInListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
-      
+         if(e.getActionCommand().equals("new"))
+         {
+            new NewUserDialog();
+         }
+         else
+         {
+            JOptionPane.showMessageDialog(null ,"You clicked on the \"Log In\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+         }
       }
    }
    
-   private class NewUserDialog extends JDialog
+   private class NewUserDialog extends JDialog implements ActionListener
    {
-      private JDialog NewUserBox;
+      private JDialog newUserBox;
       private JPanel titlePanel;
       private JPanel fieldPanel;
       private JPanel buttonPanel;
@@ -103,10 +106,10 @@ public class LogInUI
       
       public NewUserDialog()
       {
-         NewUserBox= new JDialog(logInFrame, "New User", true);
-         NewUserBox.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-         NewUserBox.setResizable(false);
-         NewUserBox.setLayout(new BoxLayout(NewUserBox.getContentPane(), BoxLayout.Y_AXIS));
+         newUserBox= new JDialog(logInFrame, "New User", true);
+         newUserBox.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+         newUserBox.setResizable(false);
+         newUserBox.setLayout(new BoxLayout(newUserBox.getContentPane(), BoxLayout.Y_AXIS));
       
          titlePanel= new JPanel();
          titlePanel.setLayout(new FlowLayout());
@@ -114,7 +117,7 @@ public class LogInUI
          titleLabel= new JLabel("New User Creation");
          titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
          titlePanel.add(titleLabel);
-         NewUserBox.add(titlePanel);
+         newUserBox.add(titlePanel);
       
          fieldPanel= new JPanel();
          fieldPanel.setLayout(new GridLayout(3,2));
@@ -129,41 +132,39 @@ public class LogInUI
             
          pwField2= new JPasswordField();
          fieldPanel.add(pwField2);
-         NewUserBox.add(fieldPanel);
+         newUserBox.add(fieldPanel);
       
          buttonPanel= new JPanel();
          buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
          buttonPanel.add(Box.createRigidArea(new Dimension(8,0)));
-      
+            
          createButton= new JButton("Create");
-         createButton.addActionListener(new CreateListener());
+         createButton.setActionCommand("create");
+         createButton.addActionListener(this);
          buttonPanel.add(createButton);
          buttonPanel.add(Box.createHorizontalGlue());
       
          backButton= new JButton("Back");
-         backButton.addActionListener(new BackListener());
+         backButton.setActionCommand("back");
+         backButton.addActionListener(this);
          buttonPanel.add(backButton);
          buttonPanel.add(Box.createRigidArea(new Dimension(8,0)));
       
-         NewUserBox.add(buttonPanel);
-         NewUserBox.pack();
-         NewUserBox.setVisible(true);
+         newUserBox.add(buttonPanel);
+         newUserBox.pack();
+         newUserBox.setVisible(true);
       }
       
-      private class CreateListener implements ActionListener
+      public void actionPerformed(ActionEvent e)
       {
-         public void actionPerformed(ActionEvent e)
+         if(e.getActionCommand().equals("create"))
          {
-         
+            JOptionPane.showMessageDialog(null ,"You clicked on the \"Create\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
          }
-      }
-   
-      private class BackListener implements ActionListener
-      {
-         public void actionPerformed(ActionEvent e)
+         else
          {
-            NewUserBox.setVisible(false);
-            NewUserBox.dispose();
+            newUserBox.setVisible(false);
+            newUserBox.dispose();
          }
       }
    }

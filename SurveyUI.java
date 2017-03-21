@@ -43,15 +43,19 @@ public class SurveyUI
       rightPanel= new JPanel();
       rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
       
+      SurveyListener theListener= new SurveyListener();
+      
       newButton= new JButton("New");
       newButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-      newButton.addActionListener(new NewListener());
+      newButton.setActionCommand("new");
+      newButton.addActionListener(theListener);
       rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
       rightPanel.add(newButton);
    
       loadButton= new JButton("Load");
       loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-      loadButton.addActionListener(new LoadListener());
+      loadButton.setActionCommand("load");
+      loadButton.addActionListener(theListener);
       rightPanel.add(loadButton);
       rightPanel.add(Box.createVerticalGlue());
       
@@ -81,27 +85,26 @@ public class SurveyUI
       return(null);
    }
    
-   private class NewListener implements ActionListener
+   private class SurveyListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
-         /*JOptionPane.showMessageDialog(null ,"You clicked on the \"New\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
-         splashIcon= new ImageIcon(getImageFile("TestImage_Inv.png")); 
-         splashLabel.setIcon(splashIcon);*/
+         if(e.getActionCommand().equals("new"))
+         {
+            /*JOptionPane.showMessageDialog(null ,"You clicked on the \"New\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+            splashIcon= new ImageIcon(getImageFile("TestImage_Inv.png")); 
+            splashLabel.setIcon(splashIcon);*/
          
-         QuestionFrame testQ= new QuestionFrame();
+            QuestionFrame testQ= new QuestionFrame();
+         }
+         else
+         {
+            JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+         }
       }
    }
-   
-   private class LoadListener implements ActionListener
-   {
-      public void actionPerformed(ActionEvent e)
-      {
-         JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
-      }
-   }
-   
-   private class QuestionFrame extends JFrame
+      
+   private class QuestionFrame extends JFrame implements ActionListener
    {
       private JFrame questionFrame;
       private JPanel questionPanel;
@@ -140,7 +143,7 @@ public class SurveyUI
          options[0].setSelected(true);
          options[1]= new JRadioButton("Option 2");
          options[2]= new JRadioButton("Option 3");
-
+      
          optionGroup= new ButtonGroup();
          for(int i=0; i<options.length; i++)
          {
@@ -148,15 +151,15 @@ public class SurveyUI
             optionGroup.add(options[i]);
             optionPanel.add(options[i]);
          }
-
+      
          optionPanel.add(Box.createRigidArea(new Dimension(0,15)));
-
+      
          JRadioButton[] importance= new JRadioButton[3];
          importance[0]= new JRadioButton("Very Important");
          importance[0].setSelected(true);
          importance[1]= new JRadioButton("Important");
          importance[2]= new JRadioButton("Not Important");
-
+      
          importanceGroup= new ButtonGroup();
          for(int i=0; i<importance.length; i++)
          {
@@ -167,7 +170,8 @@ public class SurveyUI
          
          chooseButton= new JButton("Choose");
          chooseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-         chooseButton.addActionListener(new ChooseListener());
+         chooseButton.setActionCommand("choose");
+         chooseButton.addActionListener(this);
          optionPanel.add(Box.createRigidArea(new Dimension(0,15)));
          optionPanel.add(chooseButton);
          
@@ -181,19 +185,15 @@ public class SurveyUI
          questionFrame.setVisible(true);
       }
       
-      private class OptionListener implements ActionListener
+      public void actionPerformed(ActionEvent e)
       {
-         public void actionPerformed(ActionEvent e)
-         {
-         
-         }
-      }
-      
-      private class ChooseListener implements ActionListener
-      {
-         public void actionPerformed(ActionEvent e)
+         if(e.getActionCommand().equals("choose"))
          {
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Choose\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+         }
+         else
+         {
+
          }
       }
    }
