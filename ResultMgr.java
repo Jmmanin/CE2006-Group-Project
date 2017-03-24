@@ -30,7 +30,7 @@ public class ResultMgr
    
    }
    
-   public static void saveServer()
+   public static void saveRowtoServer(String tableName, String values)
    {
 	   try{  
 		   String driver = "com.mysql.jdbc.Driver"; 
@@ -38,10 +38,8 @@ public class ResultMgr
 		   String username = "teamsecretdb";							/*default username*/
 		   String password = "TEAMSECRET2017!";							/*password*/	
 		   Connection con = createConnection(driver, url,username,password); /*connect to server using jdbc*/
-		   System.out.println("Con success");
-		   String query = "INSERT INTO emp " + "VALUES(4, 'BK', 22)";
-		   insertQuery(query, con); 			/*submit query to show table 'emp'*/ 
-		   System.out.println("Insert Succesful");
+		   insertQuery(tableName, values, con); 			/*submit query to save a row to table*/ 
+		   System.out.println("Row saved");
 		   close(con);														/* close connection to server */
 	   }
 	   catch(Exception e)
@@ -50,7 +48,7 @@ public class ResultMgr
 	   }  
    }
    
-   public static void loadServer()
+   public static void loadTablefromServer(String tableName)
    {
 	   try{  
 		   String driver = "com.mysql.jdbc.Driver"; 
@@ -58,7 +56,7 @@ public class ResultMgr
 		   String username = "teamsecretdb";							/*default username*/
 		   String password = "TEAMSECRET2017!";							/*password*/	
 		   Connection con = createConnection(driver, url,username,password); /*connect to server using jdbc*/
-		   ResultSet rs= selectQuery("select * from emp", con); 			/*submit query to show table 'emp'*/ 
+		   ResultSet rs= selectQuery(tableName, con); 			/*submit query to show all rows in  table 'emp'*/ 
 		   List<Map<String, Object>> results= map(rs);
 		   printTable(results);
 		   close(con);														/* close connection to server */
@@ -68,7 +66,44 @@ public class ResultMgr
 		   System.out.println(e);
 	   }  
    }
-	     
+
+   public static void loadRowfromServer(String tableName, String loc)
+   {
+	   try{  
+		   String driver = "com.mysql.jdbc.Driver"; 
+		   String url = "jdbc:mysql://mysql4.gear.host/teamsecretdb";	/*hosted on gearhost.com <10MB*/
+		   String username = "teamsecretdb";							/*default username*/
+		   String password = "TEAMSECRET2017!";							/*password*/	
+		   Connection con = createConnection(driver, url,username,password); /*connect to server using jdbc*/
+		   ResultSet rs= selectQuery(tableName, loc, con); 			/*submit query to show a row from table 'emp'*/ 
+		   List<Map<String, Object>> results= map(rs);
+		   printTable(results);
+		   close(con);														/* close connection to server */
+	   }
+	   catch(Exception e)
+	   { 
+		   System.out.println(e);
+	   }  
+   }
+   
+   public static void deleteRowfromServer(String tableName, String loc)
+   {
+	   try{  
+		   String driver = "com.mysql.jdbc.Driver"; 
+		   String url = "jdbc:mysql://mysql4.gear.host/teamsecretdb";	/*hosted on gearhost.com <10MB*/
+		   String username = "teamsecretdb";							/*default username*/
+		   String password = "TEAMSECRET2017!";							/*password*/	
+		   Connection con = createConnection(driver, url,username,password); /*connect to server using jdbc*/
+		   deleteRow(tableName, loc, con); 			/*submit query to delete row from table*/ 
+		   System.out.println("Row deleted");
+		   close(con);														/* close connection to server */
+	   }
+	   catch(Exception e)
+	   { 
+		   System.out.println(e);
+	   }  
+   }
+   
    public static Connection createConnection(String driver, String url, String username, String password) throws ClassNotFoundException, SQLException
    {
 	   Class.forName(driver);
@@ -158,22 +193,41 @@ public class ResultMgr
 	   return results; 
    }
  
-   public static ResultSet selectQuery(String s, Connection con) throws SQLException
+   public static ResultSet selectQuery(String tableName, Connection con) throws SQLException				/* load all rows from table */
 
    {
+	   String s = "SELECT * from " + tableName; 
 	   Statement stmt = con.createStatement();
 	   ResultSet rs = stmt.executeQuery(s);
 	   return rs;
 
    }
    
-   public static void insertQuery(String s, Connection con) throws SQLException
+   public static ResultSet selectQuery(String tableName, String loc, Connection con) throws SQLException	/* load a single row from table */
 
    {
+	   String s = "SELECT * from " + tableName + " WHERE " + loc; 			/*SELECT * from tableName WHERE loc*/
+	   Statement stmt = con.createStatement();
+	   ResultSet rs = stmt.executeQuery(s);
+	   return rs;
+
+   }
+   
+   public static void insertQuery(String tableName, String values, Connection con) throws SQLException
+   {
+	   String s = "INSERT INTO " + tableName + " VALUES(" + values+")"; 
 	   Statement stmt = con.createStatement();
 	   stmt.executeUpdate(s);
 
    }
+   
+   public static void deleteRow(String tableName, String loc, Connection con) throws SQLException
+   {
+	   String s = "DELETE FROM " + tableName + " WHERE " + loc; 
+	   Statement stmt = con.createStatement();
+	   stmt.executeUpdate(s);
+   }
+   
    public static void printTable(List<Map<String, Object>> results)
    {
 	   Map<String, Object> temp = new HashMap<String, Object>();
@@ -192,8 +246,14 @@ public class ResultMgr
    }
    
    public static void main(String args[]){  
-	  loadServer();
-	  saveServer();
-	  loadServer();
+;	  String tableName = "emp";
+	  String values = "4, 'BK', 22";
+	  String loc = "id = 4";
+	  loadTablefromServer(tableName);
+	  deleteRowfromServer(tableName, loc);
+	  loadTablefromServer(tableName);
+	  saveRowtoServer(tableName, values);
+	  loadTablefromServer(tableName);
+	  loadRowfromServer(tableName, loc);
    }
 }
