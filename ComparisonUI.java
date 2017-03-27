@@ -122,7 +122,6 @@ public class ComparisonUI
    
    private class SaveDialog extends JDialog implements ActionListener
    {
-      private JDialog saveBox;
       private JPanel titlePanel;
       private JPanel buttonPanel;
       private JLabel titleLabel;
@@ -133,10 +132,10 @@ public class ComparisonUI
       
       public SaveDialog()
       {
-         saveBox= new JDialog(theFrame, "Save?", true);
-         saveBox.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-         saveBox.setResizable(false);
-         saveBox.setLayout(new BoxLayout(saveBox.getContentPane(), BoxLayout.Y_AXIS));
+         super(theFrame, "Save?", true);
+         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         setResizable(false);
+         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
          
          titlePanel= new JPanel();
          titlePanel.setLayout(new FlowLayout());
@@ -144,7 +143,7 @@ public class ComparisonUI
          titleLabel= new JLabel("Save Results?");
          titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
          titlePanel.add(titleLabel);
-         saveBox.add(titlePanel);
+         add(titlePanel);
          
          buttonPanel= new JPanel();
          buttonPanel.setLayout(new GridLayout(2,2));
@@ -169,9 +168,9 @@ public class ComparisonUI
          cancelButton.addActionListener(this);
          buttonPanel.add(cancelButton);
          
-         saveBox.add(buttonPanel);
-         saveBox.pack();
-         saveBox.setVisible(true);
+         add(buttonPanel);
+         pack();
+         setVisible(true);
       }
       
       public void actionPerformed(ActionEvent e)
@@ -189,8 +188,8 @@ public class ComparisonUI
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Both\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
          }
       
-         saveBox.setVisible(false);
-         saveBox.dispose();
+         setVisible(false);
+         dispose();
       }
    }
 

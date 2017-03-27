@@ -102,42 +102,61 @@ public class SurveyUI
     
    private class LoadDialog extends JDialog implements ActionListener
    {   
-      private JDialog loadDialog;
       private JPanel leftPanel;
       private JPanel rightPanel;
-      private JTextArea serverArea;
-      private JTextArea localArea;
+      private DefaultListModel<String> serverModel;
+      private JList<String> serverList;
+      private JScrollPane serverScroller;
+      private DefaultListModel<String> localModel;
+      private JList<String> localList;
+      private JScrollPane localScroller;
       private JButton loadButton;
       private JButton backButton;
    
       public LoadDialog()
       {
-         loadDialog= new JDialog(startFrame, "Load Previous Results", true);
-         loadDialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-         loadDialog.setLayout(new BoxLayout(loadDialog.getContentPane(), BoxLayout.X_AXIS));
-         loadDialog.setResizable(false);
+         super(startFrame, "Load Previous Results", true);
+         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
+         setResizable(false);
          
          leftPanel= new JPanel();
          leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
          leftPanel.add(Box.createRigidArea(new Dimension(0,4)));
          
-         serverArea= new JTextArea("Sample Server Results");
-         serverArea.setPreferredSize(new Dimension(550, 250));
-         serverArea.setEditable(false);
-         serverArea.setLineWrap(true);
-         leftPanel.add(serverArea);
+         serverModel= new DefaultListModel<String>();
+         serverModel.addElement("Jane Doe");
+         serverModel.addElement("John Smith");
+         serverModel.addElement("Kathy Green");
+      
+         serverList= new JList<String>(serverModel);
+         serverList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+         serverList.setLayoutOrientation(JList.VERTICAL);
+         serverList.setVisibleRowCount(-1);
+         
+         serverScroller = new JScrollPane(serverList);
+         serverScroller.setPreferredSize(new Dimension(550, 250));
+         leftPanel.add(serverScroller);
          leftPanel.add(Box.createRigidArea(new Dimension(0,10)));
          
-         localArea= new JTextArea("Sample Local Results");
-         localArea.setPreferredSize(new Dimension(550, 250));
-         localArea.setEditable(false);
-         localArea.setLineWrap(true);
-         leftPanel.add(localArea);
+         localModel= new DefaultListModel<String>();
+         localModel.addElement("Jane Doe");
+         localModel.addElement("John Smith");
+         localModel.addElement("Kathy Green");
+      
+         localList= new JList<String>(localModel);
+         localList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+         localList.setLayoutOrientation(JList.VERTICAL);
+         localList.setVisibleRowCount(-1);
+         
+         localScroller = new JScrollPane(localList);
+         localScroller.setPreferredSize(new Dimension(550, 250));
+         leftPanel.add(localScroller);
          leftPanel.add(Box.createRigidArea(new Dimension(0,4)));
             
-         loadDialog.add(Box.createRigidArea(new Dimension(8,0)));
-         loadDialog.add(leftPanel);
-         loadDialog.add(new JSeparator(SwingConstants.VERTICAL));
+         add(Box.createRigidArea(new Dimension(8,0)));
+         add(leftPanel);
+         add(new JSeparator(SwingConstants.VERTICAL));
       
          rightPanel= new JPanel();
          rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
@@ -160,10 +179,10 @@ public class SurveyUI
          rightPanel.add(cpLabel);
          rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
       
-         loadDialog.add(rightPanel);
-         loadDialog.add(Box.createRigidArea(new Dimension(8,0)));
-         loadDialog.pack();
-         loadDialog.setVisible(true);
+         add(rightPanel);
+         add(Box.createRigidArea(new Dimension(8,0)));
+         pack();
+         setVisible(true);
       }
       
       public void actionPerformed(ActionEvent e)
@@ -174,8 +193,8 @@ public class SurveyUI
          }
          else
          {
-            loadDialog.setVisible(false);
-            loadDialog.dispose();
+            setVisible(false);
+            dispose();
          }
       }
    }

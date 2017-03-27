@@ -94,7 +94,6 @@ public class LogInUI
    
    private class NewUserDialog extends JDialog implements ActionListener
    {
-      private JDialog newUserBox;
       private JPanel titlePanel;
       private JPanel fieldPanel;
       private JPanel buttonPanel;
@@ -106,10 +105,10 @@ public class LogInUI
       
       public NewUserDialog()
       {
-         newUserBox= new JDialog(logInFrame, "New User", true);
-         newUserBox.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-         newUserBox.setResizable(false);
-         newUserBox.setLayout(new BoxLayout(newUserBox.getContentPane(), BoxLayout.Y_AXIS));
+         super(logInFrame, "New User", true);
+         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         setResizable(false);
+         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
       
          titlePanel= new JPanel();
          titlePanel.setLayout(new FlowLayout());
@@ -117,7 +116,7 @@ public class LogInUI
          titleLabel= new JLabel("New User Creation");
          titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
          titlePanel.add(titleLabel);
-         newUserBox.add(titlePanel);
+         add(titlePanel);
       
          fieldPanel= new JPanel();
          fieldPanel.setLayout(new GridLayout(3,2));
@@ -132,7 +131,7 @@ public class LogInUI
             
          pwField2= new JPasswordField();
          fieldPanel.add(pwField2);
-         newUserBox.add(fieldPanel);
+         add(fieldPanel);
       
          buttonPanel= new JPanel();
          buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -150,9 +149,9 @@ public class LogInUI
          buttonPanel.add(backButton);
          buttonPanel.add(Box.createRigidArea(new Dimension(8,0)));
       
-         newUserBox.add(buttonPanel);
-         newUserBox.pack();
-         newUserBox.setVisible(true);
+         add(buttonPanel);
+         pack();
+         setVisible(true);
       }
       
       public void actionPerformed(ActionEvent e)
@@ -163,8 +162,8 @@ public class LogInUI
          }
          else
          {
-            newUserBox.setVisible(false);
-            newUserBox.dispose();
+            setVisible(false);
+            dispose();
          }
       }
    }
