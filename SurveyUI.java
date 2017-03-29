@@ -1,5 +1,5 @@
 /*
-Jeremy Manin
+Jeremy Manin, Boon Kiat, Yeong Jin Zhi, Andrew Koh Jin Jie, Feng Wei 
 CE2006- Team Secret
 Term Project- SurveyUI
 User Interface for the survey section of the program

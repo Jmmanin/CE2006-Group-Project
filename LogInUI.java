@@ -1,5 +1,5 @@
 /*
-Jeremy Manin
+Jeremy Manin, Boon Kiat, Yeong Jin Zhi, Andrew Koh Jin Jie, Feng Wei 
 CE2006- Team Secret
 Term Project- LogInUI
 User Interface for the user logIn/user creation section of the program
@@ -22,6 +22,8 @@ public class LogInUI
    private JPasswordField pwField;
    private JButton newUserButton;
    private JButton logInButton;
+   
+   private ServerMgr serverMgr;
    
    public LogInUI()
    {
@@ -75,6 +77,8 @@ public class LogInUI
       logInFrame.add(buttonPanel);
       logInFrame.pack();
       logInFrame.setVisible(true);
+      
+      serverMgr= new ServerMgr();
    }
    
    private class LogInListener implements ActionListener
@@ -158,8 +162,23 @@ public class LogInUI
       {
          if(e.getActionCommand().equals("create"))
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Create\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
-         }
+            String username, password, password2;
+            
+            username= uNField.getText();
+            password= new String(pwField.getPassword());
+            password2= new String(pwField2.getPassword());
+            
+            if(username.length()>20)
+               JOptionPane.showMessageDialog(this ,"Username entered exceeds maximum length.\nUsername must be less than 20 characters long.", "Invalid Username", JOptionPane.ERROR_MESSAGE);          
+            else if(password.length()>20)
+               JOptionPane.showMessageDialog(this ,"Password entered exceeds maximum length.\nPassword must be less than 20 characters long.", "Invalid Password", JOptionPane.ERROR_MESSAGE);          
+            else if(!password.equals(password2))
+               JOptionPane.showMessageDialog(this ,"Passwords entered do not match.", "Password Mismatch", JOptionPane.ERROR_MESSAGE);          
+            else
+            {
+            
+            }
+         }   
          else
          {
             setVisible(false);
