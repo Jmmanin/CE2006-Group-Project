@@ -8,6 +8,7 @@ User Interface for the user logIn/user creation section of the program
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class LogInUI
 {
@@ -85,13 +86,35 @@ public class LogInUI
    {
       public void actionPerformed(ActionEvent e)
       {
+         int status= 2;
+         
          if(e.getActionCommand().equals("new"))
          {
             new NewUserDialog();
          }
          else
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Log In\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+            try
+            {
+               status= serverMgr.verifyUser(uNField.getText(),new String(pwField.getPassword()));
+            }
+            catch(Exception e2)
+            {
+               JOptionPane.showMessageDialog(logInFrame ,"Unable to connect to database.\nCheck connection and try again.", "SQL Error", JOptionPane.ERROR_MESSAGE);          
+               System.exit(1);
+            }
+            
+            if(status==2)
+               JOptionPane.showMessageDialog(logInFrame ,"Could not log-in.\nInvalid username entered.", "Invalid Login", JOptionPane.ERROR_MESSAGE);          
+            else if(status==0)
+               JOptionPane.showMessageDialog(logInFrame ,"Could not log-in.\nInvalid password entered.", "Invalid Login", JOptionPane.ERROR_MESSAGE);          
+            else
+            {
+               JOptionPane.showMessageDialog(logInFrame ,"Login Successful.\nWelcome back " + uNField.getText() + "!", "Login Success", JOptionPane.INFORMATION_MESSAGE);          
+               logInFrame.setVisible(false);
+               logInFrame.dispose();
+               new SurveyUI(serverMgr);
+            }
          }
       }
    }
@@ -102,8 +125,10 @@ public class LogInUI
       private JPanel fieldPanel;
       private JPanel buttonPanel;
       private JLabel titleLabel;
-      private JLabel pwLabel2;
-      private JPasswordField pwField2;
+      private JTextField uNFieldCreate;
+      private JPasswordField pwFieldCreate;
+      private JLabel pwLabelCreate2;
+      private JPasswordField pwFieldCreate2;
       private JButton createButton;
       private JButton backButton;
       
@@ -126,15 +151,17 @@ public class LogInUI
          fieldPanel.setLayout(new GridLayout(3,2));
       
          fieldPanel.add(uNLabel);
-         fieldPanel.add(uNField);
+         uNFieldCreate= new JTextField();
+         fieldPanel.add(uNFieldCreate);
          fieldPanel.add(pwLabel);
-         fieldPanel.add(pwField);
+         pwFieldCreate= new JPasswordField();
+         fieldPanel.add(pwFieldCreate);
          
-         pwLabel2= new JLabel(" Confirm Password: ");
-         fieldPanel.add(pwLabel2);
+         pwLabelCreate2= new JLabel(" Confirm Password: ");
+         fieldPanel.add(pwLabelCreate2);
             
-         pwField2= new JPasswordField();
-         fieldPanel.add(pwField2);
+         pwFieldCreate2= new JPasswordField();
+         fieldPanel.add(pwFieldCreate2);
          add(fieldPanel);
       
          buttonPanel= new JPanel();
@@ -163,10 +190,11 @@ public class LogInUI
          if(e.getActionCommand().equals("create"))
          {
             String username, password, password2;
+            int status= 0;
             
-            username= uNField.getText();
-            password= new String(pwField.getPassword());
-            password2= new String(pwField2.getPassword());
+            username= uNFieldCreate.getText();
+            password= new String(pwFieldCreate.getPassword());
+            password2= new String(pwFieldCreate2.getPassword());
             
             if(username.length()>20)
                JOptionPane.showMessageDialog(this ,"Username entered exceeds maximum length.\nUsername must be less than 20 characters long.", "Invalid Username", JOptionPane.ERROR_MESSAGE);          
@@ -176,7 +204,27 @@ public class LogInUI
                JOptionPane.showMessageDialog(this ,"Passwords entered do not match.", "Password Mismatch", JOptionPane.ERROR_MESSAGE);          
             else
             {
-            
+               try
+               {
+                  status= serverMgr.createUser(username, password);
+               }
+               catch(Exception e2)
+               {
+                  JOptionPane.showMessageDialog(logInFrame ,"Unable to connect to database.\nCheck connection and try again.", "SQL Error", JOptionPane.ERROR_MESSAGE);          
+                  System.exit(1);
+               }
+                              
+               if(status==2)
+                  JOptionPane.showMessageDialog(this ,"Username already exists.\nPlease try another.", "Invalid Username", JOptionPane.ERROR_MESSAGE);
+               else if(status==0)
+                  JOptionPane.showMessageDialog(this ,"Unable to create account.", "User Create Error", JOptionPane.ERROR_MESSAGE);
+               else
+               {
+                  JOptionPane.showMessageDialog(this ,"User creation successful.\nWelcome " + uNFieldCreate.getText() + "!", "User Create Success", JOptionPane.INFORMATION_MESSAGE);          
+                  logInFrame.setVisible(false);
+                  logInFrame.dispose();
+                  new SurveyUI(serverMgr);
+               }
             }
          }   
          else

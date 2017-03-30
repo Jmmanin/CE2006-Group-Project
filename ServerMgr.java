@@ -17,14 +17,6 @@ public class ServerMgr {
 
 	}
 
-	public boolean verifyAccount() {
-		return (true);
-	}
-
-	public void createAccount() {
-
-	}
-
 	public void saveLocal() {
 
 	}

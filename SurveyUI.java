@@ -22,8 +22,10 @@ public class SurveyUI
    private JButton newButton;
    private JButton loadButton;
    private JLabel cpLabel;
+   
+   private ServerMgr serverMgr;
 
-   public SurveyUI()
+   public SurveyUI(ServerMgr sM)
    {         
       startFrame= new JFrame("SurveyUI Test");
       startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,6 +70,8 @@ public class SurveyUI
       startFrame.add(Box.createRigidArea(new Dimension(8,0)));
       startFrame.pack();
       startFrame.setVisible(true);
+      
+      serverMgr= sM;
    }
       
    private BufferedImage getImageFile(String filename)
@@ -190,6 +194,7 @@ public class SurveyUI
          if(e.getActionCommand().equals("load"))
          {
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+            System.out.println(serverList.getSelectedIndex() + " " + "\n" + localList.getSelectedIndex());
          }
          else
          {
@@ -296,6 +301,6 @@ public class SurveyUI
             
    public static void main(String args[])
    {
-      new SurveyUI();
+      new SurveyUI(new ServerMgr());
    }   
 }
