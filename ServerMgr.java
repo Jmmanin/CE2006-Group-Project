@@ -33,19 +33,31 @@ public class ServerMgr {
 
 	}
 
-	public static void saveRowtoServer(String tableName, String values) {
+	public static int saveRowtoServer(String tableName, String values) {
+		int status = 0;
 		try {
+			String columnsPara = "";
+			if (tableName.equals("emp")){
+				columnsPara = "(id, name, age)";
+			}
+			else
+			{
+				columnsPara = "(iduserinfo, PW)";
+			}
 			Connection con = createConnection(); /*
 			 * connect to server using
 			 * jdbc
 			 */
-			insertQuery(tableName, values,
+			status = insertQuery(tableName, columnsPara, values,
 					con); /* submit query to save a row to table */
-			System.out.println("Row saved");
+			if (status == 1){
+					System.out.println("Row saved");
+			}
 			close(con); /* close connection to server */
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return status;
 	}
 
 	public static void loadTablefromServer(String tableName) {
@@ -192,11 +204,19 @@ public class ServerMgr {
 
 	}
 
-	public static void insertQuery(String tableName, String values, Connection con) throws SQLException {
-		String s = "INSERT INTO " + tableName + " VALUES(" + values + ")";
-		Statement stmt = con.createStatement();
-		stmt.executeUpdate(s);
-
+	public static int insertQuery(String tableName, String columnsPara, String values, Connection con) throws SQLException {
+		int status = 0;
+		try{
+			String s = "INSERT INTO " + tableName + columnsPara + " VALUES(" + values + ")";
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate(s);
+			status = 1;
+		}
+		catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e){
+			System.out.println("Duplicate Key");
+			status = 2;
+		}
+		return status;
 	}
 
 	public static void deleteRow(String tableName, String loc, Connection con) throws SQLException {
@@ -205,6 +225,7 @@ public class ServerMgr {
 		stmt.executeUpdate(s);
 	}
 
+	
 	public static void printTable(List<Map<String, Object>> results) {
 		Map<String, Object> temp = new HashMap<String, Object>();
 		for (int i = 1; i <= results.size(); i++) {
@@ -219,15 +240,67 @@ public class ServerMgr {
 
 	}
 
-	public static void main(String args[]) {
+	public static int verifyUser(String user, String pw) throws SQLException, ClassNotFoundException{
+		
+		String loc = "iduserinfo = '" + user+ "'";
+		String tableName = "userinfo";
+		String dbusername = "";
+		String dbpassword = "";
+		Connection con = createConnection(); /*
+		 * connect to server using
+		 * jdbc
+		 */
+		ResultSet rs = selectQuery(tableName, loc, con);
+		List<Map<String, Object>> results = map(rs);
+		Map<String, Object> temp = new HashMap<String, Object>();
+		try{
+			temp = results.get(0);
+		}
+		catch (IndexOutOfBoundsException e){
+			return 2;
+		}
+		int i = 0;
+		for (Map.Entry<String, Object> entry : temp.entrySet()) {
+			if (i==0){
+				dbusername = (String) entry.getValue();
+				i++;
+			}
+			else{
+				dbpassword = (String) entry.getValue();
+
+			}
+		}
+		if ((dbpassword.equals(pw)) && (dbusername.equals(user))){
+			close(con);
+			return 1;
+		}
+		else{
+			close(con);
+			return 0;	
+		}
+}
+	
+	public static int createUser(String user, String pw) throws SQLException, ClassNotFoundException{
+		
+		int status = 0;
+		try{
+			String tableName = "userinfo";
+			String values = "'" + user + "', '" + pw +"'";
+			status = saveRowtoServer(tableName, values);
+		}
+		finally{
+			;
+		}
+		return status;
+	}
+	
+	public static void main(String args[]) throws ClassNotFoundException, SQLException { 
 		String tableName = "emp";
-		String values = "4, 'BK', 22";
+		String user = "TEAMSECRETLOSERS";
+		String pw = "ILOVELOSERS";
+		String values = "4, 'BK', 23";
 		String loc = "id = 4";
-		loadTablefromServer(tableName);
-		deleteRowfromServer(tableName, loc);
-		loadTablefromServer(tableName);
-		saveRowtoServer(tableName, values);
-		loadTablefromServer(tableName);
-		loadRowfromServer(tableName, loc);
+		System.out.println(createUser(user, pw));
+		System.out.println(verifyUser(user, pw));
 	}
 }
