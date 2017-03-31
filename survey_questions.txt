@@ -1,0 +1,17 @@
+3
+Sample Question Text 1
+3
+Yes
+No
+Maybe
+Sample Question Text 2
+2
+High
+Low
+Sample Question Text 3
+5
+Never
+Gonna
+Give
+You
+Up

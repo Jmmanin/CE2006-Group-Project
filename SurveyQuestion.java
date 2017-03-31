@@ -10,8 +10,9 @@ public class SurveyQuestion
    private String question;
    private String[] options;
    
-   public SurveyQuestion()
+   public SurveyQuestion(String q, String[] o)
    {
-   
+      question= q;
+      options= o;
    }
 }
