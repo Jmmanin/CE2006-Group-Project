@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-import java.io.*;
 
 public class SurveyUI
 {
@@ -24,6 +23,7 @@ public class SurveyUI
    private JLabel cpLabel;
    
    private ServerMgr serverMgr;
+   private SurveyMgr surveyMgr;
 
    public SurveyUI(ServerMgr sM)
    {         
@@ -72,6 +72,8 @@ public class SurveyUI
       startFrame.setVisible(true);
       
       serverMgr= sM;
+      surveyMgr= new SurveyMgr("survey_questions.txt");
+      surveyMgr.generateQuestions();
    }
       
    private BufferedImage getImageFile(String filename)
@@ -95,10 +97,13 @@ public class SurveyUI
       {
          if(e.getActionCommand().equals("new"))
          {
-            QuestionFrame testQ= new QuestionFrame();
+            startFrame.setVisible(false);
+            startFrame.dispose();
+            new QuestionFrame(0);
          }
          else
          {
+            startFrame.setVisible(false);
             new LoadDialog();
          }
       }
@@ -116,6 +121,7 @@ public class SurveyUI
       private JScrollPane localScroller;
       private JButton loadButton;
       private JButton backButton;
+      private JLabel cpLabel2;
    
       public LoadDialog()
       {
@@ -180,7 +186,9 @@ public class SurveyUI
          rightPanel.add(backButton);
          rightPanel.add(Box.createVerticalGlue());
       
-         rightPanel.add(cpLabel);
+         cpLabel2= new JLabel("<html><center>CE2006 Term Project<br>Team Secret<br>S2 2017</center></html>");
+         cpLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+         rightPanel.add(cpLabel2);
          rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
       
          add(rightPanel);
@@ -200,6 +208,7 @@ public class SurveyUI
          {
             setVisible(false);
             dispose();
+            startFrame.setVisible(true);
          }
       }
    }
@@ -215,9 +224,13 @@ public class SurveyUI
       private ButtonGroup importanceGroup;
       private JRadioButton[] importance;
       private JButton chooseButton;
+            
+      private int currQuestion;      
+            
+      public QuestionFrame(int cQ)
+      {         
+         currQuestion= cQ;
       
-      public QuestionFrame()
-      {
          questionFrame= new JFrame("Question Test");
          questionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          questionFrame.setLayout(new BoxLayout(questionFrame.getContentPane(), BoxLayout.X_AXIS));
@@ -226,7 +239,7 @@ public class SurveyUI
          questionPanel= new JPanel();
          questionPanel.setLayout(new FlowLayout());
          
-         questionArea= new JTextArea("This is a sample question's text");
+         questionArea= new JTextArea(surveyMgr.getQuestion(currQuestion).getQuestionText());
          questionArea.setPreferredSize(new Dimension(550, 450));
          questionArea.setEditable(false);
          questionArea.setLineWrap(true);
@@ -239,11 +252,11 @@ public class SurveyUI
          optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
          optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
          
-         JRadioButton[] options= new JRadioButton[3];
-         options[0]= new JRadioButton("Option 1");
-         options[0].setSelected(true);
-         options[1]= new JRadioButton("Option 2");
-         options[2]= new JRadioButton("Option 3");
+         options= new JRadioButton[surveyMgr.getQuestion(currQuestion).getOptionsNum()];
+         for(int i= 0;i<options.length;i++)
+            options[i]= new JRadioButton(surveyMgr.getQuestion(currQuestion).getOption(i));
+         
+         options[0].setSelected(true);            
       
          optionGroup= new ButtonGroup();
          for(int i=0; i<options.length; i++)
@@ -255,7 +268,7 @@ public class SurveyUI
       
          optionPanel.add(Box.createRigidArea(new Dimension(0,15)));
       
-         JRadioButton[] importance= new JRadioButton[3];
+         importance= new JRadioButton[3];
          importance[0]= new JRadioButton("Very Important");
          importance[0].setSelected(true);
          importance[1]= new JRadioButton("Important");
@@ -283,14 +296,49 @@ public class SurveyUI
          questionFrame.add(optionPanel);
          questionFrame.add(Box.createRigidArea(new Dimension(8,0)));
          questionFrame.pack();
-         questionFrame.setVisible(true);
+         questionFrame.setVisible(true);         
       }
       
       public void actionPerformed(ActionEvent e)
       {
+         int optionPicked= -1;
+         int importancePicked= -1;
+                           
          if(e.getActionCommand().equals("choose"))
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Choose\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+            for(int i= 0;i<options.length;i++)
+            {
+               if(options[i].isSelected())
+               {
+                  optionPicked= i;
+                  break;
+               }
+            } 
+            
+            for(int i= 0;i<importance.length;i++)
+            {
+               if(importance[i].isSelected())
+               {
+                  importancePicked= i;
+                  break;
+               }
+            }
+            
+            questionFrame.setVisible(false);
+            questionFrame.dispose();
+                       
+            surveyMgr.getQuestion(currQuestion).setAnswer(optionPicked,importancePicked);
+            currQuestion++;
+            
+            if(currQuestion<surveyMgr.getQuestionNum())
+            {
+               new QuestionFrame(currQuestion);
+            }
+            else
+            {
+               JOptionPane.showMessageDialog(null ,"All questions answered.", "HELLO", JOptionPane.WARNING_MESSAGE);          
+               new ResultUI();
+            }   
          }
          else
          {

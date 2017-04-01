@@ -12,7 +12,7 @@ public class SurveyMgr
 {
    private String filename;
    private SurveyQuestion[] questions;
-   
+
    public SurveyMgr(String fn)
    {
       filename= fn;
@@ -22,6 +22,11 @@ public class SurveyMgr
    public SurveyQuestion getQuestion(int index)
    {
       return(questions[index]);
+   }
+   
+   public int getQuestionNum()
+   {
+      return(questions.length);
    }
    
    public void generateQuestions()
@@ -48,7 +53,9 @@ public class SurveyMgr
                tempChoices[j]= dataIn.nextLine();
                
             questions[i]= new SurveyQuestion(tempText, tempChoices);   
-         }       
+         }
+         
+         dataIn.close();      
       }
       catch(FileNotFoundException e)
       {
