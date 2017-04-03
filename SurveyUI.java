@@ -10,6 +10,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.util.List;
+import java.util.Map;
+import java.sql.SQLException;
 
 public class SurveyUI
 {
@@ -113,18 +116,22 @@ public class SurveyUI
    {   
       private JPanel leftPanel;
       private JPanel rightPanel;
+      private JLabel serverLabel;
       private DefaultListModel<String> serverModel;
       private JList<String> serverList;
       private JScrollPane serverScroller;
+      private JLabel localLabel;
       private DefaultListModel<String> localModel;
       private JList<String> localList;
       private JScrollPane localScroller;
       private JButton loadButton;
       private JButton backButton;
       private JLabel cpLabel2;
+      
+      private List<Map<String, Object>> results;
    
       public LoadDialog()
-      {
+      {         
          super(startFrame, "Load Previous Results", true);
          setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
@@ -133,11 +140,25 @@ public class SurveyUI
          leftPanel= new JPanel();
          leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
          leftPanel.add(Box.createRigidArea(new Dimension(0,4)));
+          
+         serverLabel= new JLabel("Server Results"); 
+         serverLabel.setFont(new Font("Arial", Font.BOLD, 12));
+         serverLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+         leftPanel.add(serverLabel);
+                  
+         try
+         {
+            results= serverMgr.loadTablefromServer("serialobjects");
+         }
+         catch(Exception e)
+         {
+            e.printStackTrace();
+            System.exit(1);
+         }
          
          serverModel= new DefaultListModel<String>();
-         serverModel.addElement("Jane Doe");
-         serverModel.addElement("John Smith");
-         serverModel.addElement("Kathy Green");
+         for(int i=0;i<results.size();i++)
+            serverModel.addElement((String)results.get(i).get("title"));
       
          serverList= new JList<String>(serverModel);
          serverList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -145,10 +166,15 @@ public class SurveyUI
          serverList.setVisibleRowCount(-1);
          
          serverScroller = new JScrollPane(serverList);
-         serverScroller.setPreferredSize(new Dimension(550, 250));
+         serverScroller.setPreferredSize(new Dimension(550, 234));
          leftPanel.add(serverScroller);
          leftPanel.add(Box.createRigidArea(new Dimension(0,10)));
-         
+                  
+         localLabel= new JLabel("Local Results"); 
+         localLabel.setFont(new Font("Arial", Font.BOLD, 12));
+         localLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+         leftPanel.add(localLabel);
+                  
          localModel= new DefaultListModel<String>();
          localModel.addElement("Jane Doe");
          localModel.addElement("John Smith");
@@ -160,7 +186,7 @@ public class SurveyUI
          localList.setVisibleRowCount(-1);
          
          localScroller = new JScrollPane(localList);
-         localScroller.setPreferredSize(new Dimension(550, 250));
+         localScroller.setPreferredSize(new Dimension(550, 234));
          leftPanel.add(localScroller);
          leftPanel.add(Box.createRigidArea(new Dimension(0,4)));
             
