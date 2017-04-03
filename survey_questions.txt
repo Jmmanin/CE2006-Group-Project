@@ -1,17 +1,109 @@
+6(major questions)
+
+Area of interest
+13
+Engineering
+4
+Electronics or mechanics
+Science
+Information
+anything
+Computing
 3
-Sample Question Text 1
+Hardware
+Software
+Both
+Accountancy and Business
 3
-Yes
-No
-Maybe
-Sample Question Text 2
-2
-High
-Low
-Sample Question Text 3
+Mathematics
+Operations/planning
+Anything
+Arts, Design and Media
+4
+Animation
+Photography
+Design/innovation
+Anything
+Communication Studies
+1
+Communication studies
+Sports
+1
+Sports science and management
+Health
 5
-Never
-Gonna
-Give
-You
-Up
+Medicine
+Pharmacy
+Dentistry
+Nursing
+Anythng
+Humanities
+4
+Language studies
+Society
+history
+Anything
+Language
+1
+Linguistics
+Science
+6
+Biology
+Chemistry
+Physics
+Food
+Data
+anything
+Law
+1
+Law
+Mathematics
+3
+Statictics
+Finance
+anything
+Music
+1
+Music
+
+Expected salary after graduation
+6
+>=3k
+>=3.5k
+>=4k
+>=4.5k
+>4.5k
+Anything
+
+Rate of employment
+6
+>=70%
+>=75%
+>=80%
+>=85%
+>85%
+Anything
+
+Location
+3
+South West(NTU, NUS)
+Central Singapore(SMU)
+Anywhere
+
+Working hours
+2
+Flexible
+Fixed
+
+Work environment
+8
+Office job
+Hands-on
+Backend
+Frontend
+Fast paced
+Laboratory
+Outfield
+
+
+
