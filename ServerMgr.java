@@ -54,7 +54,8 @@ public class ServerMgr {
 		return status;
 	}
 
-	public static void loadTablefromServer(String tableName) {
+	public static List<Map<String, Object>> loadTablefromServer(String tableName) {
+		List<Map<String, Object>> results = null;
 		try {
 
 			Connection con = createConnection(); /*
@@ -63,12 +64,13 @@ public class ServerMgr {
 			 */
 			ResultSet rs = selectQuery(tableName,
 					con); /* submit query to show all rows in table 'emp' */
-			List<Map<String, Object>> results = map(rs);
-			printTable(results);
+			results = map(rs);
 			close(con); /* close connection to server */
+			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return results;
 	}
 
 	public static void loadRowfromServer(String tableName, String loc) {
@@ -288,13 +290,24 @@ public class ServerMgr {
 		return status;
 	}
 	
-	public static int saveSerial(String title, String serial) throws SQLException, ClassNotFoundException{
+	public static int saveSerial(String title, Object serial) throws SQLException, ClassNotFoundException, IOException{
 		
 		int status = 0;
 		try{
-			String tableName = "serialobjects";
-			String values = "'" + title + "', '" + serial +"'";
-			status = saveRowtoServer(tableName, values);
+			Connection con = createConnection();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(serial);
+			byte[] serialAsBytes = baos.toByteArray();
+			ByteArrayInputStream bais = new ByteArrayInputStream(serialAsBytes);
+		    String sql = "INSERT INTO serialobjects (title, serial) VALUES (?, ?)";
+		    PreparedStatement stmt = con.prepareStatement(sql);
+		    stmt.setString(1, "title");
+		    stmt.setBinaryStream(2, bais, serialAsBytes.length);
+		    stmt.executeUpdate();
+		    stmt.close();
+		    con.close();
+		    status = 1;
 		}
 		finally{
 			;
@@ -303,8 +316,9 @@ public class ServerMgr {
 	}
 	
 
-	public static List<Map<String, Object>> loadSerial(String title) throws SQLException, ClassNotFoundException{
+	public static Result loadSerialRow(String title) throws SQLException, ClassNotFoundException{
 		
+		Result result = NULL;
 		String loc = "title = '" + title + "'";
 		String tableName = "serialobjects";
 		Connection con = createConnection(); /*
@@ -313,11 +327,16 @@ public class ServerMgr {
 		 */
 		ResultSet rs = selectQuery(tableName, loc, con);
 		List<Map<String, Object>> results = map(rs);
-		printTable(results);
-		return results;
+		while (rs.next()) {
+		      byte[] st = (byte[]) rs.getObject(1);
+		      ByteArrayInputStream baip = new ByteArrayInputStream(st);
+		      ObjectInputStream ois = new ObjectInputStream(baip);
+		      result = (Result) ois.readObject();
+		    }
+		return result;
 }
 	
-	public static void main(String args[]) throws ClassNotFoundException, SQLException { 
+	public static void main(String args[]) throws ClassNotFoundException, SQLException, IOException { 
 		String tableName = "emp";
 		String user = "TEAMSECRETLOSERS";
 		String pw = "ILOVELOSERS";
@@ -325,8 +344,8 @@ public class ServerMgr {
 		String loc = "id = 4";
 		String title = "testtitle";
 		String serial = "testserial";
-		saveSerial(title, serial);
-		loadSerial(title);
+		saveSerial(title);
+		loadSerial("tokyoowl");
 
 	}
 }
