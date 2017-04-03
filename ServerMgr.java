@@ -32,8 +32,10 @@ public class ServerMgr {
 			if (tableName.equals("emp")){
 				columnsPara = "(id, name, age)";
 			}
-			else
-			{
+			else if (tableName.equals("serialobjects")){
+				columnsPara = "(title, serial)";
+			}
+			else{
 				columnsPara = "(iduserinfo, PW)";
 			}
 			Connection con = createConnection(); /*
@@ -286,13 +288,45 @@ public class ServerMgr {
 		return status;
 	}
 	
+	public static int saveSerial(String title, String serial) throws SQLException, ClassNotFoundException{
+		
+		int status = 0;
+		try{
+			String tableName = "serialobjects";
+			String values = "'" + title + "', '" + serial +"'";
+			status = saveRowtoServer(tableName, values);
+		}
+		finally{
+			;
+		}
+		return status;
+	}
+	
+
+	public static List<Map<String, Object>> loadSerial(String title) throws SQLException, ClassNotFoundException{
+		
+		String loc = "title = '" + title + "'";
+		String tableName = "serialobjects";
+		Connection con = createConnection(); /*
+		 * connect to server using
+		 * jdbc
+		 */
+		ResultSet rs = selectQuery(tableName, loc, con);
+		List<Map<String, Object>> results = map(rs);
+		printTable(results);
+		return results;
+}
+	
 	public static void main(String args[]) throws ClassNotFoundException, SQLException { 
 		String tableName = "emp";
 		String user = "TEAMSECRETLOSERS";
 		String pw = "ILOVELOSERS";
 		String values = "4, 'BK', 23";
 		String loc = "id = 4";
-		System.out.println(createUser(user, pw));
-		System.out.println(verifyUser(user, pw));
+		String title = "testtitle";
+		String serial = "testserial";
+		saveSerial(title, serial);
+		loadSerial(title);
+
 	}
 }
