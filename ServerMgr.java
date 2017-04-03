@@ -333,6 +333,8 @@ public class ServerMgr {
 		      ObjectInputStream ois = new ObjectInputStream(baip);
 		      result = (Result) ois.readObject();
 		    }
+		con.close();
+		rs.close();
 		return result;
 }
 	
