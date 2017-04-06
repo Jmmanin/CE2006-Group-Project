@@ -29,13 +29,22 @@ public class SurveyMgr
       return(questions.length);
    }
    
+   public void answerQuestion(int index, int choice, int importance)
+   {
+      questions[index].setAnswer(choice, importance);
+      
+      if(questions[index].getHasSubQuestions())
+         questions[index+1]= questions[index].getSubQuestion(choice);
+   }
+   
    public void generateQuestions()
    {
       File questionData;
       Scanner dataIn;
-      int count= 0;
-      String tempText;
-      String[] tempChoices;
+      String tempText, tempText2;
+      String[] tempChoices, tempChoices2;
+      boolean hasSub;
+      SurveyQuestion[] tempSubQuestions= null;
       
       try
       {
@@ -48,11 +57,37 @@ public class SurveyMgr
          {
             tempText= dataIn.nextLine();
             tempChoices= new String[Integer.parseInt(dataIn.nextLine())];
+            hasSub= Boolean.parseBoolean(dataIn.nextLine());
             
-            for(int j= 0;j<tempChoices.length;j++)
-               tempChoices[j]= dataIn.nextLine();
+            if(!hasSub)
+            {
+               for(int j= 0;j<tempChoices.length;j++)
+                  tempChoices[j]= dataIn.nextLine();
+            }
+            else
+            {
+               tempSubQuestions= new SurveyQuestion[tempChoices.length];
                
-            questions[i]= new SurveyQuestion(tempText, tempChoices);   
+               for(int j=0;j<tempChoices.length;j++)
+               {
+                  tempChoices[j]= dataIn.nextLine();
+                  tempText2= tempChoices[j];
+                  tempChoices2= new String[Integer.parseInt(dataIn.nextLine())];
+                  
+                  for(int k=0;k<tempChoices2.length;k++)
+                     tempChoices2[k]= dataIn.nextLine();
+                  
+                  tempSubQuestions[j]= new SurveyQuestion(tempText2, tempChoices2);   
+               } 
+            }      
+               
+            questions[i]= new SurveyQuestion(tempText, tempChoices);
+            
+            if(hasSub)
+            {
+               questions[i].setSubQuestions(tempSubQuestions); 
+               i++;
+            }     
          }
          
          dataIn.close();      

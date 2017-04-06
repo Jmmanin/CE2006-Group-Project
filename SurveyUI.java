@@ -276,8 +276,8 @@ public class SurveyUI
          
          optionPanel= new JPanel();
          optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
-         optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
-         
+         optionPanel.add(Box.createRigidArea(new Dimension(0,5)));
+
          options= new JRadioButton[surveyMgr.getQuestion(currQuestion).getOptionsNum()];
          for(int i= 0;i<options.length;i++)
             options[i]= new JRadioButton(surveyMgr.getQuestion(currQuestion).getOption(i));
@@ -287,7 +287,6 @@ public class SurveyUI
          optionGroup= new ButtonGroup();
          for(int i=0; i<options.length; i++)
          {
-            options[i].setAlignmentX(Component.CENTER_ALIGNMENT);
             optionGroup.add(options[i]);
             optionPanel.add(options[i]);
          }
@@ -303,22 +302,18 @@ public class SurveyUI
          importanceGroup= new ButtonGroup();
          for(int i=0; i<importance.length; i++)
          {
-            importance[i].setAlignmentX(Component.CENTER_ALIGNMENT);
             importanceGroup.add(importance[i]);
             optionPanel.add(importance[i]);
          }
-         
+                  
          chooseButton= new JButton("Choose");
-         chooseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
          chooseButton.setActionCommand("choose");
          chooseButton.addActionListener(this);
          optionPanel.add(Box.createRigidArea(new Dimension(0,15)));
          optionPanel.add(chooseButton);
-         
          optionPanel.add(Box.createVerticalGlue());
-         optionPanel.add(cpLabel);
-         optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
-         
+                           
+         optionPanel.add(Box.createRigidArea(new Dimension(0,10)));         
          questionFrame.add(optionPanel);
          questionFrame.add(Box.createRigidArea(new Dimension(8,0)));
          questionFrame.pack();
@@ -353,7 +348,7 @@ public class SurveyUI
             questionFrame.setVisible(false);
             questionFrame.dispose();
                        
-            surveyMgr.getQuestion(currQuestion).setAnswer(optionPicked,importancePicked);
+            surveyMgr.answerQuestion(currQuestion,optionPicked,importancePicked);
             currQuestion++;
             
             if(currQuestion<surveyMgr.getQuestionNum())

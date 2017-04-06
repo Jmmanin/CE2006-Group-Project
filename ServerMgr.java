@@ -25,7 +25,7 @@ public class ServerMgr {
 
 	}
 
-	public static int saveRowtoServer(String tableName, String values) {
+	public int saveRowtoServer(String tableName, String values) {
 		int status = 0;
 		try {
 			String columnsPara = "";
@@ -54,7 +54,7 @@ public class ServerMgr {
 		return status;
 	}
 
-	public static List<Map<String, Object>> loadTablefromServer(String tableName) {
+	public List<Map<String, Object>> loadTablefromServer(String tableName) {
 		List<Map<String, Object>> results = null;
 		try {
 
@@ -73,7 +73,7 @@ public class ServerMgr {
 		return results;
 	}
 
-	public static void loadRowfromServer(String tableName, String loc) {
+	public void loadRowfromServer(String tableName, String loc) {
 		try {
 			Connection con = createConnection(); /*
 			 * connect to server using
@@ -89,7 +89,7 @@ public class ServerMgr {
 		}
 	}
 
-	public static void deleteRowfromServer(String tableName, String loc) {
+	public void deleteRowfromServer(String tableName, String loc) {
 		try {
 			Connection con = createConnection(); /*
 			 * connect to server using
@@ -104,7 +104,7 @@ public class ServerMgr {
 		}
 	}
 
-	public static Connection createConnection() throws ClassNotFoundException, SQLException {
+	public Connection createConnection() throws ClassNotFoundException, SQLException {
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://mysql4.gear.host/teamsecretdb"; /*
 		 * hosted on
@@ -123,7 +123,7 @@ public class ServerMgr {
 		}
 	}
 
-	public static void close(Connection connection) {
+	public void close(Connection connection) {
 		try {
 			if (connection != null) {
 				connection.close();
@@ -133,7 +133,7 @@ public class ServerMgr {
 		}
 	}
 
-	public static void close(Statement st) {
+	public void close(Statement st) {
 		try {
 			if (st != null) {
 				st.close();
@@ -143,7 +143,7 @@ public class ServerMgr {
 		}
 	}
 
-	public static void close(ResultSet rs) {
+	public void close(ResultSet rs) {
 		try {
 			if (rs != null) {
 				rs.close();
@@ -154,7 +154,7 @@ public class ServerMgr {
 
 	}
 
-	public static List<Map<String, Object>> map(ResultSet rs) throws SQLException {
+	public List<Map<String, Object>> map(ResultSet rs) throws SQLException {
 		List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
 
 		try {
@@ -177,7 +177,7 @@ public class ServerMgr {
 		return results;
 	}
 
-	public static ResultSet selectQuery(String tableName, Connection con)
+	public ResultSet selectQuery(String tableName, Connection con)
 			throws SQLException /* load all rows from table */
 
 	{
@@ -188,7 +188,7 @@ public class ServerMgr {
 
 	}
 
-	public static ResultSet selectQuery(String tableName, String loc, Connection con)
+	public ResultSet selectQuery(String tableName, String loc, Connection con)
 			throws SQLException /* load a single row from table */
 
 	{
@@ -200,7 +200,7 @@ public class ServerMgr {
 
 	}
 
-	public static int insertQuery(String tableName, String columnsPara, String values, Connection con) throws SQLException {
+	public int insertQuery(String tableName, String columnsPara, String values, Connection con) throws SQLException {
 		int status = 0;
 		try{
 			String s = "INSERT INTO " + tableName + columnsPara + " VALUES(" + values + ")";
@@ -215,14 +215,14 @@ public class ServerMgr {
 		return status;
 	}
 
-	public static void deleteRow(String tableName, String loc, Connection con) throws SQLException {
+	public void deleteRow(String tableName, String loc, Connection con) throws SQLException {
 		String s = "DELETE FROM " + tableName + " WHERE " + loc;
 		Statement stmt = con.createStatement();
 		stmt.executeUpdate(s);
 	}
 
 	
-	public static void printTable(List<Map<String, Object>> results) {
+	public void printTable(List<Map<String, Object>> results) {
 		Map<String, Object> temp = new HashMap<String, Object>();
 		for (int i = 1; i <= results.size(); i++) {
 			temp = results.get(i - 1);
@@ -236,7 +236,7 @@ public class ServerMgr {
 
 	}
 
-	public static int verifyUser(String user, String pw) throws SQLException, ClassNotFoundException{
+	public int verifyUser(String user, String pw) throws SQLException, ClassNotFoundException{
 		
 		String loc = "iduserinfo = '" + user+ "'";
 		String tableName = "userinfo";
@@ -276,7 +276,7 @@ public class ServerMgr {
 		}
 }
 	
-	public static int createUser(String user, String pw) throws SQLException, ClassNotFoundException{
+	public int createUser(String user, String pw) throws SQLException, ClassNotFoundException{
 		
 		int status = 0;
 		try{
@@ -290,7 +290,7 @@ public class ServerMgr {
 		return status;
 	}
 	
-	public static int saveSerial(String title, Object serial) throws SQLException, ClassNotFoundException, IOException{
+	public int saveSerial(String title, Object serial) throws SQLException, ClassNotFoundException, IOException{
 		
 		int status = 0;
 		try{
@@ -316,9 +316,9 @@ public class ServerMgr {
 	}
 	
 
-	public static Result loadSerialRow(String title) throws SQLException, ClassNotFoundException{
+	public Result loadSerialRow(String title) throws SQLException, ClassNotFoundException, IOException{
 		
-		Result result = NULL;
+		Result result = null;
 		String loc = "title = '" + title + "'";
 		String tableName = "serialobjects";
 		Connection con = createConnection(); /*
@@ -339,15 +339,17 @@ public class ServerMgr {
 }
 	
 	public static void main(String args[]) throws ClassNotFoundException, SQLException, IOException { 
-		String tableName = "emp";
+		ServerMgr example= new ServerMgr();
+      
+      String tableName = "emp";
 		String user = "TEAMSECRETLOSERS";
 		String pw = "ILOVELOSERS";
 		String values = "4, 'BK', 23";
 		String loc = "id = 4";
 		String title = "testtitle";
 		String serial = "testserial";
-		saveSerial(title);
-		loadSerial("tokyoowl");
+		//example.saveSerial(title); //These method calls need to be updated
+		//example.loadSerial("tokyoowl");
 
 	}
 }

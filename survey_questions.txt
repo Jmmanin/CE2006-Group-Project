@@ -1,7 +1,7 @@
-6(major questions)
-
+7
 Area of interest
 13
+true
 Engineering
 4
 Electronics or mechanics
@@ -65,38 +65,38 @@ anything
 Music
 1
 Music
-
 Expected salary after graduation
 6
+false
 >=3k
 >=3.5k
 >=4k
 >=4.5k
 >4.5k
 Anything
-
 Rate of employment
 6
+false
 >=70%
 >=75%
 >=80%
 >=85%
 >85%
 Anything
-
 Location
 3
+false
 South West(NTU, NUS)
 Central Singapore(SMU)
 Anywhere
-
 Working hours
 2
+false
 Flexible
 Fixed
-
 Work environment
-8
+7
+false
 Office job
 Hands-on
 Backend
@@ -104,6 +104,3 @@ Frontend
 Fast paced
 Laboratory
 Outfield
-
-
-
