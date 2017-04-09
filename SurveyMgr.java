@@ -99,6 +99,19 @@ public class SurveyMgr
       }     
    }
    
+   public int[][] getAnswers()
+   {
+      int[][] answers= new int[questions.length][2];
+      
+      for(int i=0;i<questions.length;i++)
+      {
+         answers[i][0]= questions[i].getChoice();
+         answers[i][1]= questions[i].getImportance();
+      }
+      
+      return(answers);
+   }
+   
    public static void main(String[] args) throws IOException
    {
       SurveyMgr example= new SurveyMgr("survey_questions.txt");
