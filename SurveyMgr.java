@@ -112,9 +112,227 @@ public class SurveyMgr
       return(answers);
    }
    
+   
+   public static String weighImportance(int choice, int impt){
+	   String result = "";
+	   /* this if branch checks for major*/
+	   if(answers[1][0] == 1){ // engineering
+		   if(answers[2][0] == 1){ // electronics or mechanics
+			   result = "Electronic/Mechanical";
+		   }
+		   else if(answers[2][0] == 2){ // Science
+			   
+		   }
+		   else if(answers[2][0] == 3){ // Information
+			   
+		   }
+		   else{ // Anything
+			   
+		   }
+	   }
+	   else if(answers[1][0] == 2){ // computing
+		   if(answers[2][0] == 1){ // hardware
+			   
+		   }
+		   else if(answers[2][0] == 2){ // software
+			   
+		   }
+		   else{ //both
+			   
+		   }
+	   }
+	   else if(answers[1][0] == 3){ // accountancy and business
+		   if(answers[2][0] == 1){ // mathematics
+			   
+		   }
+		   else if(answers[2][0] == 2){ // Operations/planning
+			   
+		   }
+		   else{ // both
+			   
+		   }
+	   }
+	   else if(answers[1][0] == 4){ // art design media
+		   if(answers[2][0] == 1){ // animation
+			   
+		   }
+		   else if(answers[2][0] == 2){ // photography
+			   
+		   }
+		   else if(answers[2][0] == 3){ // design/innovation
+			   
+		   }
+		   else{ // anything
+			   
+		   }
+	   }
+	   else if(answers[1][0] == 5){ // comms studies
+		  
+	   }
+	   else if(answers[1][0] == 6){ // sports
+		   
+	   }
+	   else if(answers[1][0] == 7){ // health
+		   if(answers[2][0] == 1){ // medicine
+			   
+		   }
+		   else if(answers[2][0] == 2){ // pharmacy
+			   
+		   }
+		   else if(answers[2][0] == 3){ // dentistry
+			   
+		   }
+		   else if(answers[2][0] == 4){ // nursing
+			   
+		   }
+		   else{ // anything
+			   
+		   }		   
+	   }
+	   else if(answers[1][0] == 8){ // humanities
+		   if(answers[2][0] == 1){ // language studies
+			   
+		   }
+		   else if(answers[2][0] == 2){ // society
+			   
+		   }
+		   else if(answers[2][0] == 3){ // history
+			   
+		   }
+		   else{ // anything
+			   
+		   }
+	   }
+	   else if(answers[1][0] == 9){ // language
+		   
+	   }
+	   else if(answers[1][0] == 10){ // science
+		   if(answers[2][0] == 1){ // biology
+			   
+		   }
+		   else if(answers[2][0] == 2){ // chemistry
+			   
+		   }
+		   else if(answers[2][0] == 3){ // physics
+			   
+		   }
+		   else if(answers[2][0] == 4){ // food
+			   
+		   }
+		   else if(answers[2][0] == 5){ // data
+			   
+		   }
+		   else{ // anything
+			   
+		   }
+	   }
+	   else if(answers[1][0] == 11){ // law
+		   
+	   }
+	   else if(answers[1][0] == 12){ // mathematics
+		   if(answers[2][0] == 1){ // statistics
+			   
+		   }
+		   else if(answers[2][0] == 2){ // finance
+			   
+		   }
+		   else{ // anything
+			   
+		   }
+	   }
+	   else{ // music
+		   
+	   }
+	   /* this if branch checks for salary*/
+	   if(answers[3][0] == 1){ // >= 3k
+		   
+	   }
+	   else if(answers[3][0] == 2){ // >= 3.5k
+		   
+	   }
+	   else if(answers[3][0] == 3){ // >= 4k
+		   
+	   }
+	   else if(answers[3][0] == 4){ // >= 4.5k
+		   
+	   }
+	   else if(answers[3][0] == 5){ // >4.5k
+		   
+	   }
+	   else{ // anything
+		   
+	   }
+	   
+	   /* this branch checks for rate of employment */
+	   if(answers[4][0] == 1){ // >= 70%
+		   
+	   }
+	   else if(answers[4][0] == 2){ // >= 75%
+		   
+	   }
+	   else if(answers[4][0] == 3){ // >= 80%
+		   
+	   }
+	   else if(answers[4][0] == 4){ // >= 85%
+		   
+	   }
+	   else if(answers[4][0] == 5){ // >85%
+		   
+	   }
+	   else{ // anything
+		   
+	   }
+	   
+	   /* this branch checks for location */
+	   if(answers[5][0] == 1){ // south west
+		   
+	   }
+	   else if(answers[5][0] == 2){ // central
+		   
+	   }
+	   else{ // anywhere
+		   
+	   }
+	   
+	   /* this branch checks for working hours */
+	   if(answers[6][0] == 1){ // flexible
+		   
+	   }
+	   else{ // fixed
+		   
+	   }
+	   
+	   /* this branch checks for working environment */
+	   if(answers[7][0] == 1){ // office job
+		   
+	   }
+	   else if(answers[7][0] == 2){ // hands-on
+		   
+	   }
+	   else if(answers[7][0] == 3){ // backend
+		   
+	   }
+	   else if(answers[7][0] == 4){ // frontend
+		   
+	   }
+	   else if(answers[7][0] == 5){ // fast paced
+		   
+	   }
+	   else if(answers[7][0] == 6){ // laboratory
+		   
+	   }
+	   else{ // outfield
+		   
+	   }
+	   
+	   
+   }
+   
    public static void main(String[] args) throws IOException
    {
       SurveyMgr example= new SurveyMgr("survey_questions.txt");
       example.generateQuestions();
+      weighImportance();
    }
+   
 }
