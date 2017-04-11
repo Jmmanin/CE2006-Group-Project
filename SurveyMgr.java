@@ -113,7 +113,7 @@ public class SurveyMgr
    }
    
    
-   public static String weighImportance(int choice, int impt){
+   public static String weighImportance(int[][] answers){
 	   String result = "";
 	   /* this if branch checks for major*/
 	   if(answers[1][0] == 1){ // engineering
@@ -325,7 +325,7 @@ public class SurveyMgr
 		   
 	   }
 	   
-	   
+	   return result;
    }
    
    public static void main(String[] args) throws IOException

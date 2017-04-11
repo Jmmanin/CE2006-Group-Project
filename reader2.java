@@ -4,7 +4,7 @@ CE2006- Team Secret
 Term Project- Data processing
 Algorithm to process data taken from the API
 */
-package reader; //comment away if not used
+//package reader; //comment away if not used
 
 import java.io.*;
 import java.util.ArrayList;

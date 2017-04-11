@@ -1,0 +1,104 @@
+NUS
+Bachelor of Science (Real Estate)
+Bachelor of Engineering (Biomedical Engineering)
+Bachelor of Engineering (Chemical Engineering)
+Bachelor of Engineering (Civil Engineering)
+Bachelor of Engineering (Computer Engineering)
+Bachelor of Engineering (Electrical Engineering)
+Bachelor of Engineering (Engineering Science)
+Bachelor of Engineering (Environmental Engineering)
+Bachelor of Engineering (Industrial and Systems Engineering)
+Bachelor of Engineering (Materials Science and Engineering)
+Bachelor of Engineering (Mechanical Engineering)
+Bachelor of Laws (L.L.B) (Hons) ##
+Bachelor of Medicine and Bachelor of Surgery ##
+Bachelor of Science (Nursing)
+Bachelor of Science (Nursing) (Hons)
+Bachelor of Music
+Bachelor of Applied Science **
+Bachelor of Applied Science (Hons)
+Bachelor of Science
+Bachelor of Science (Hons)
+Bachelor of Science (Computational Biology) **
+Bachelor of Science (Pharmacy) (Hons) ##
+Bachelor of Environmental Studies @@
+Bachelor of Arts
+Bachelor of Arts (Hons)
+Bachelor of Social Sciences
+Bachelor of Business Administration
+Bachelor of Business Administration (Hons)
+Bachelor of Business Administration (Accountancy)
+Bachelor of Business Administration (Accountancy) (Hons)
+Bachelor of Computing (Communications and Media)
+Bachelor of Computing (Computational Biology) **
+Bachelor of Computing (Computer Engineering) **
+Bachelor of Computing (Computer Science)
+Bachelor of Computing (Electronic Commerce)
+Bachelor of Computing (Information Systems)
+Bachelor of Dental Surgery
+Bachelor of Arts (Architecture) ** ##
+Bachelor of Arts (Industrial Design)
+Bachelor of Science (Project and Facilities Management)
+Bachelor of Science (Real Estate)
+Bachelor of Engineering (Bioengineering)
+Bachelor of Engineering (Chemical Engineering)
+Bachelor of Engineering (Civil Engineering)
+Bachelor of Engineering (Computer Engineering)
+Bachelor of Engineering (Electrical Engineering)
+Bachelor of Engineering (Engineering Science)
+Bachelor of Engineering (Environmental Engineering)
+Bachelor of Engineering (Industrial and Systems Engineering)
+NTU
+Biomedical Science **
+Accountancy and Business
+Accountancy (3-yr direct Honours Programme)
+Business (3-yr direct Honours Programme)
+Business and Computing
+Aerospace Engineering
+Bioengineering
+Chemical and Biomolecular Engineering
+Computer Engineering
+Civil Engineering
+Computer Science
+Electrical and Electronic Engineering
+Environmental Engineering
+Information Engineering and Media
+Materials Engineering
+Mechanical Engineering
+Maritime Studies
+Art,Design & Media
+Chinese
+Communication Studies
+Economics
+English
+Linguistics and Multilingual Studies
+Psychology
+Sociology
+Biomedical Sciences **
+Biomedical Sciences (Traditional Chinese Medicine) ^
+Biological Sciences
+Chemistry & Biological Chemistry
+Mathematics & Economics **
+Mathematical Science
+Physics / Applied Physics
+Sports Science and Management
+Science (with Education) #
+Arts (with Education) #
+SMU
+Accountancy
+Accountancy Cum Laude and above
+Business Management
+Business Management Cum Laude and above
+Economics
+Economics Cum Laude and above
+Information Systems Management
+Information Systems Management Cum Laude and above
+Social Sciences
+Social Sciences Cum Laude and above
+Law ++
+Law Cum Laude and above
+SUTD
+Bachelor of Engineering (Engineering Product Development)
+Bachelor of Engineering (Engineering Systems and Design)
+Bachelor of Engineering (Information Systems Technology and Design)
+Bachelor of Science (Architecture and Sustainable Design) ###
