@@ -4,10 +4,11 @@ CE2006- Team Secret
 Term Project- Data processing
 Algorithm to process data taken from the API
 */
-//package reader; //comment away if not used
+package reader; //comment away if not used
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 //import java.util.Arrays;
 
@@ -20,6 +21,7 @@ public class reader2 {
 		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new FileReader("grademploymentsurvey.txt"));
 		BufferedWriter bw = new BufferedWriter(new FileWriter("Courses.txt"));
+		BufferedWriter bw2 = new BufferedWriter(new FileWriter("Records.txt"));
 		br.skip(754);//skip useless stuff
 		String data = br.readLine();// read from file
 		data = data.replaceAll("\\{", "");//replace unwanted stuff
@@ -102,13 +104,34 @@ public class reader2 {
 			bw.write(str);
 			bw.newLine();
 		}
+		/* the code below strips away the description ie University : NUS. "University :" is stripped away */
+		for(int i=0; i<records.length;i++){
+			temp = records[i];
+			System.out.println(temp);
+			dataArray = temp.split(":");
+			finalrecord[i] = dataArray[1].trim();
+		}
 		
-//		for(int i=0; i<records.length;i++){
-//			temp = records[i];
-//			dataArray = temp.split(":");
-//			finalrecord[i] = dataArray[1].trim();
-//			System.out.println(finalrecord[i]);
-//		}
+		/* the code below creates Records.txt file to store all information about a single course*/
+		for(int i = 0; i < finalrecord.length; i++){ // records are stored in the format grs mthly 25th percentile, school, degree, uni, grs mthy median, perm employment rate, basic monthly median, grs mthy 75 percentile, grs mthly mean, basic mthly mean, the year this record was from, id of record
+			if(i == 0){
+				count = 0;
+				bw2.write(finalrecord[i]);
+				bw2.write(", ");
+			}
+			else if(count<12){
+				count++;
+				bw2.write(finalrecord[i]);
+				bw2.write(", ");
+			}
+			else if(count == 12){
+				count = 0;
+				bw2.newLine();
+				bw2.write(finalrecord[i]);
+				bw2.write(", ");
+			}
+		}
+		bw2.close();
 		bw.close();
 		br.close();
 	}

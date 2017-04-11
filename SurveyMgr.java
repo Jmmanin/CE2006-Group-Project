@@ -510,7 +510,10 @@ public class SurveyMgr
        }
        return highest;
    }
-   
+   public static void courseFinder(String highest, List<String> result) throws IOException {
+       BufferedReader br = new BufferedReader(new FileReader("Records.txt"));
+       
+   }
    
    public static void main(String[] args) throws IOException
    {
