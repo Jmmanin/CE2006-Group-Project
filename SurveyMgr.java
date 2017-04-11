@@ -6,7 +6,12 @@ Generates and handles survey questions
 */
 
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Arrays;
+import java.lang.Integer;   
 
 public class SurveyMgr
 {
@@ -113,226 +118,405 @@ public class SurveyMgr
    }
    
    
-   public static String weighImportance(int[][] answers){
-	   String result = "";
-	   /* this if branch checks for major*/
-	   if(answers[0][0] == 1){ // engineering
-		   if(answers[1][0] == 1){ // electronics or mechanics
-			   result = "Electronic/Mechanical";
-		   }
-		   else if(answers[1][0] == 2){ // Science
-			   
-		   }
-		   else if(answers[1][0] == 3){ // Information
-			   
-		   }
-		   else{ // Anything
-			   
-		   }
-	   }
-	   else if(answers[0][0] == 2){ // computing
-		   if(answers[1][0] == 1){ // hardware
-			   
-		   }
-		   else if(answers[1][0] == 2){ // software
-			   
-		   }
-		   else{ //both
-			   
-		   }
-	   }
-	   else if(answers[0][0] == 3){ // accountancy and business
-		   if(answers[1][0] == 1){ // mathematics
-			   
-		   }
-		   else if(answers[1][0] == 2){ // Operations/planning
-			   
-		   }
-		   else{ // both
-			   
-		   }
-	   }
-	   else if(answers[0][0] == 4){ // art design media
-		   if(answers[1][0] == 1){ // animation
-			   
-		   }
-		   else if(answers[1][0] == 2){ // photography
-			   
-		   }
-		   else if(answers[1][0] == 3){ // design/innovation
-			   
-		   }
-		   else{ // anything
-			   
-		   }
-	   }
-	   else if(answers[0][0] == 5){ // comms studies
-		  
-	   }
-	   else if(answers[0][0] == 6){ // sports
-		   
-	   }
-	   else if(answers[0][0] == 7){ // health
-		   if(answers[1][0] == 1){ // medicine
-			   
-		   }
-		   else if(answers[1][0] == 2){ // pharmacy
-			   
-		   }
-		   else if(answers[1][0] == 3){ // dentistry
-			   
-		   }
-		   else if(answers[1][0] == 4){ // nursing
-			   
-		   }
-		   else{ // anything
-			   
-		   }		   
-	   }
-	   else if(answers[0][0] == 8){ // humanities
-		   if(answers[1][0] == 1){ // language studies
-			   
-		   }
-		   else if(answers[1][0] == 2){ // society
-			   
-		   }
-		   else if(answers[1][0] == 3){ // history
-			   
-		   }
-		   else{ // anything
-			   
-		   }
-	   }
-	   else if(answers[0][0] == 9){ // language
-		   
-	   }
-	   else if(answers[0][0] == 10){ // science
-		   if(answers[1][0] == 1){ // biology
-			   
-		   }
-		   else if(answers[1][0] == 2){ // chemistry
-			   
-		   }
-		   else if(answers[1][0] == 3){ // physics
-			   
-		   }
-		   else if(answers[1][0] == 4){ // food
-			   
-		   }
-		   else if(answers[1][0] == 5){ // data
-			   
-		   }
-		   else{ // anything
-			   
-		   }
-	   }
-	   else if(answers[0][0] == 11){ // law
-		   
-	   }
-	   else if(answers[0][0] == 12){ // mathematics
-		   if(answers[1][0] == 1){ // statistics
-			   
-		   }
-		   else if(answers[1][0] == 2){ // finance
-			   
-		   }
-		   else{ // anything
-			   
-		   }
-	   }
-	   else{ // music
-		   
-	   }
-	   /* this if branch checks for salary*/
-	   if(answers[2][0] == 1){ // >= 3k
-		   
-	   }
-	   else if(answers[2][0] == 2){ // >= 3.5k
-		   
-	   }
-	   else if(answers[2][0] == 3){ // >= 4k
-		   
-	   }
-	   else if(answers[2][0] == 4){ // >= 4.5k
-		   
-	   }
-	   else if(answers[2][0] == 5){ // >4.5k
-		   
-	   }
-	   else{ // anything
-		   
-	   }
+   public static List<String> getImportance(int[][] answers){
+	 List<String> result = new ArrayList<String>();
+         String course, salary, location, employRate, workHours, workEnv, courseImpt, salaryImpt, employRateImpt, locationImpt, workHoursImpt, workEnvImpt;
+         course = salary = location = employRate = workHours = workEnv = courseImpt = salaryImpt = employRateImpt = locationImpt = workHoursImpt = workEnvImpt = "";
+         
+       /* this if branch checks for major*/
+       switch (answers[0][0]) {
+           case 1:
+           // engineering
+           switch (answers[1][0]) {
+               case 1:
+                   // electronics or mechanics
+                   course = "Electronic/Mechanical Engineering";
+                   break;
+               case 2:
+                   // Science
+                   course  = "Engineering Science";
+                   break;
+               case 3:
+                   // Information
+                   course = "Information Engineering";
+                   break;
+               default:
+                   // Anything
+                   course = "Engineering";
+                   break;
+           }
+               break;
+           case 2:
+           // computing
+           switch (answers[1][0]) {
+               case 1:
+                   // hardware
+                   course = "Computer Engineering";
+                   break;
+               case 2:
+                   // software
+                   course = "Computer Science";
+                   break;
+               default:
+                   //both
+                   course = "Computing";
+                   break;
+           }
+               break;
+           case 3:
+           // accountancy and business
+           switch (answers[1][0]) {
+               case 1:
+                   // mathematics
+                   course = "Business Mathematics";
+                   break;
+               case 2:
+                   // Operations/planning
+                   course = "Operations";
+                   break;
+               default:
+                   // both
+                   course = "Accountancy and Business";
+                   break;
+           }
+               break;
+           case 4:
+               // art design media
+               switch (answers[1][0]) {
+                   case 1:
+                       // animation
+                       course = "Animation";
+                       break;
+                   case 2:
+                       // photography
+                       course = "Photography";
+                       break;
+                   case 3:
+                       // design/innovation
+                       course = "Design";
+                       break;
+                   default:
+                       // anything
+                       course = "Art";
+                       break;
+               }
+               break;
+           case 5:
+               // comms studies
+               course = "Communications Studies";
+               break;
+           case 6:
+               // sports
+               course = "Sports";
+               break;
+           case 7:
+           // health
+           switch (answers[1][0]) {
+               case 1:
+                   // medicine
+                   course = "Medicine";
+                   break;
+               case 2:
+                   // pharmacy
+                   course = "Pharmacy";
+                   break;
+               case 3:
+                   // dentistry
+                   course = "Dentistry";
+                   break;
+               case 4:
+                   // nursing
+                   course = "Nursing";
+                   break;
+               default:
+                   // anything
+                   course = "Health";
+                   break;
+           }
+               break;
+           case 8:
+           // humanities
+           switch (answers[1][0]) {
+               case 1:
+                   // language studies
+                   course = "Language Studies";
+                   break;
+               case 2:
+                   // society
+                   course = "Society";
+                   break;
+               case 3:
+                   // history
+                   course = "History";
+                   break;
+               default:
+                   // anything
+                   course = "Humanities";
+                   break;
+           }
+               break;
+           case 9:
+               // language
+               course = "Language";
+               break;
+           case 10:
+           // science
+           switch (answers[1][0]) {
+               case 1:
+                   // biology
+                   course = "Biology";
+                   break;
+               case 2:
+                   // chemistry
+                   course = "Chemistry";
+                   break;
+               case 3:
+                   // physics
+                   course = "Physics";
+                   break;
+               case 4:
+                   // food
+                   course = "Food Science";
+                   break;
+               case 5:
+                   // data
+                   course = "Data Science";
+                   break;
+               default:
+                   // anything
+                   course = "Science";
+                   break;
+           }
+               break;
+           case 11:
+               // law
+               course = "Law";
+               break;
+           case 12:
+           // mathematics
+           switch (answers[1][0]) {
+               case 1:
+                   // statistics
+                   course = "Statistics";
+                   break;
+               case 2:
+                   // finance
+                   course = "Finance";
+                   break;
+               default:
+                   // anything
+                   course = "Mathematics";
+                   break;
+           }
+               break;
+           default:
+               // music
+               course = "Music";
+               break;
+       }
+         
+       /* this if branch checks for salary*/
+       switch (answers[2][0]) {
+           case 1:
+               // >= 3k
+               salary = "3000";
+               break;
+           case 2:
+               // >= 3.5k
+               salary = "3500";
+               break;
+           case 3:
+               // >= 4k
+               salary = "4000";
+               break;
+           case 4:
+               // >= 4.5k
+               salary = "4500";
+               break;
+           case 5:
+               // >4.5k
+               salary = "5000";
+               break;
+           default:
+               // anything
+               salary = "0";
+               break;
+       }
 	   
-	   /* this branch checks for rate of employment */
-	   if(answers[3][0] == 1){ // >= 70%
-		   
-	   }
-	   else if(answers[3][0] == 2){ // >= 75%
-		   
-	   }
-	   else if(answers[3][0] == 3){ // >= 80%
-		   
-	   }
-	   else if(answers[3][0] == 4){ // >= 85%
-		   
-	   }
-	   else if(answers[3][0] == 5){ // >85%
-		   
-	   }
-	   else{ // anything
-		   
-	   }
+       /* this branch checks for rate of employment */
+       switch (answers[3][0]) {
+           case 1:
+               // >= 70%
+               employRate = "70";
+               break;
+           case 2:
+               // >= 75%
+               employRate = "75";
+               break;
+           case 3:
+               // >= 80%
+               employRate = "80";
+               break;
+           case 4:
+               // >= 85%
+               employRate = "85";
+               break;
+           case 5:
+               // >85%
+               employRate = "90";
+               break;
+           default:
+               // anything
+               employRate = "0";
+               break;
+       }
 	   
-	   /* this branch checks for location */
-	   if(answers[4][0] == 1){ // south west
-		   
-	   }
-	   else if(answers[4][0] == 2){ // central
-		   
-	   }
-	   else{ // anywhere
-		   
-	   }
+       /* this branch checks for location */
+       switch (answers[4][0]) {
+           case 1:
+               // south west
+               location = "South West";
+               break;
+           case 2:
+               // central
+               location = "central";
+               break;
+           default:
+               // anywhere
+               location = "";
+               break;
+       }
 	   
 	   /* this branch checks for working hours */
-	   if(answers[5][0] == 1){ // flexible
-		   
-	   }
-	   else{ // fixed
-		   
-	   }
-	   
-	   /* this branch checks for working environment */
-	   if(answers[6][0] == 1){ // office job
-		   
-	   }
-	   else if(answers[6][0] == 2){ // hands-on
-		   
-	   }
-	   else if(answers[6][0] == 3){ // backend
-		   
-	   }
-	   else if(answers[6][0] == 4){ // frontend
-		   
-	   }
-	   else if(answers[6][0] == 5){ // fast paced
-		   
-	   }
-	   else if(answers[6][0] == 6){ // laboratory
-		   
-	   }
-	   else{ // outfield
-		   
+       switch (answers[5][0]){ 
+           // flexible
+           case 1:
+              workHours = "Flexible";
+              break;
+           default: 
+               // fixed
+               workHours = "Fixed";
+               break;
 	   }
 	   
-	   return result;
+       /* this branch checks for working environment */
+       switch (answers[6][0]) {
+           case 1:
+               // office job
+               workEnv = "Office";
+               break;
+           case 2:
+               // hands-on
+               workEnv = "Hands on";
+               break;
+           case 3:
+               // backend
+               workEnv = "Backend";
+               break;
+           case 4:
+               // frontend
+               workEnv = "Frontend";
+               break;
+           case 5:
+               // fast paced
+               workEnv = "Fast Paced";
+               break;
+           case 6:
+               // laboratory
+               workEnv = "Laboratory";
+               break;
+           default:
+               // outfield
+               workEnv = "Outfield";
+               break;
+       }
+         /* get importance */
+         courseImpt = Integer.toString(answers[0][1]);
+         salaryImpt = Integer.toString(answers[1][1]);
+         employRateImpt = Integer.toString(answers[2][1]);
+         locationImpt = Integer.toString(answers[3][1]);
+         workHoursImpt = Integer.toString(answers[4][1]);
+         workEnvImpt = Integer.toString(answers[5][1]);
+	 
+         result.add(course);
+         result.add(courseImpt);
+         result.add(salary);
+         result.add(salaryImpt);
+         result.add(employRate);
+         result.add(employRateImpt);
+         result.add(location);
+         result.add(locationImpt);
+         result.add(workHours);
+         result.add(workHoursImpt);
+         result.add(workEnv);
+         result.add(workEnvImpt);
+         
+	 return result;
    }
+   public static String weighImportance(List<String> result){
+       String highest = "";
+       String[] priority = new String[result.size()];
+       //String highest2 = ""; commented out portion for getting second weightage
+       int max = 0;
+       int temp;
+       //int max2 = 0;
+       for(int i = 0; i<result.size();i++){
+          if(i%2 == 1){
+            temp = Integer.parseInt(result.get(i));
+            if(temp > max){
+                max = temp;
+                highest = Integer.toString(i);
+                //max2 = max;
+                //highest2 = highest;
+            }
+            else if(temp == max){
+                highest = highest + "," + Integer.toString(i);
+            }
+//            else if(temp < max){
+//                if(temp > max2){
+//                    max2 = temp;
+//                }
+//                else if(temp == max2){
+//                    max2 = max2 + "," + Integer.toString(i);
+//                }
+//            }
+          }
+       }
+       priority = highest.split(",");
+       highest = "";
+       for (String priority1 : priority) {
+           temp = Integer.parseInt(priority1);
+           switch (temp) {
+               case 1:
+                   highest = highest + "Course" + ", ";
+                   break;
+               case 3:
+                   highest = highest + "Salary" + ", ";
+                   break;
+               case 5:
+                   highest = highest + "Employment Rate" + ", ";
+                   break;
+               case 7:
+                   highest = highest + "Location" + ", ";
+                   break;
+               case 9:
+                   highest = highest + "Working Hours" + ", ";
+                   break;
+               default:
+                   highest = highest + "Working Environment";
+                   break;
+           }
+           
+       }
+       return highest;
+   }
+   
    
    public static void main(String[] args) throws IOException
    {
       SurveyMgr example= new SurveyMgr("survey_questions.txt");
       example.generateQuestions();
-      weighImportance();
+      
    }
    
 }
