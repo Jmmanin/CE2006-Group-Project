@@ -75,13 +75,12 @@ false
 >4.5k
 Anything
 Rate of employment
-6
+5
 false
 >=70%
 >=75%
 >=80%
 >=85%
->85%
 Anything
 Location
 3

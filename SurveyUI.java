@@ -358,6 +358,10 @@ public class SurveyUI
             else
             {
                JOptionPane.showMessageDialog(null ,"All questions answered.", "HELLO", JOptionPane.WARNING_MESSAGE);          
+               Result theResult= surveyMgr.createResult();
+               ApiMgr apiMgr= new ApiMgr();
+               apiMgr.processRawAnswers(theResult);
+               apiMgr.weighAnswers(theResult);
                new ResultUI();
             }   
          }
