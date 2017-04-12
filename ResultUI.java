@@ -8,6 +8,8 @@ User Interface for presenting results to the user
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Map;
+import java.util.List;
 
 public class ResultUI
 {
@@ -32,7 +34,7 @@ public class ResultUI
       serverMgr= sM;
       theResult= r;
       
-      theFrame= new JFrame("ResultUI Test");
+      theFrame= new JFrame("Your Results");
       theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       theFrame.setLayout(new BoxLayout(theFrame.getContentPane(), BoxLayout.X_AXIS));
       theFrame.setResizable(false);
@@ -110,16 +112,19 @@ public class ResultUI
       {
          if(e.getActionCommand().equals("save"))
          {
-            resultArea.append(" *save clicked*");
             new SaveDialog();         
          }
          else if(e.getActionCommand().equals("compare"))
          {
-            resultArea.append(" *compare clicked*");         
+            theFrame.setVisible(false);
+            theFrame.dispose();
+            new LoadDialog();
          }
          else if(e.getActionCommand().equals("new"))
          {
-            resultArea.append(" *new clicked*");         
+            theFrame.setVisible(false);
+            theFrame.dispose();
+            new SurveyUI(username, serverMgr);        
          }
          else if(e.getActionCommand().equals("logout"))
          {
@@ -191,7 +196,6 @@ public class ResultUI
       {
          if(e.getActionCommand().equals("server"))
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Server\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
             try
             {
                serverMgr.saveSerial(username, theResult);
@@ -199,16 +203,16 @@ public class ResultUI
             catch(Exception e2)
             {
                e2.printStackTrace();
-            }   
+            }
+            JOptionPane.showMessageDialog(null ,"Saved to server.", "Saved", JOptionPane.INFORMATION_MESSAGE);          
          }
          else if(e.getActionCommand().equals("local"))
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Local\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
             serverMgr.saveLocal(username, theResult);
+            JOptionPane.showMessageDialog(null ,"Saved to local folder.", "Saved", JOptionPane.INFORMATION_MESSAGE);          
          } 
          else if(e.getActionCommand().equals("both"))
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Both\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
             try
             {
                serverMgr.saveSerial(username, theResult);
@@ -218,10 +222,172 @@ public class ResultUI
                e2.printStackTrace();
             }   
             serverMgr.saveLocal(username, theResult);
+            JOptionPane.showMessageDialog(null ,"Saved to server and local folder", "Saved", JOptionPane.INFORMATION_MESSAGE);          
          }
       
          setVisible(false);
          dispose();
+      }
+   }
+   
+   private class LoadDialog extends JDialog implements ActionListener
+   {   
+      private JPanel leftPanel;
+      private JPanel rightPanel;
+      private JLabel serverLabel;
+      private DefaultListModel<String> serverModel;
+      private JList<String> serverList;
+      private JScrollPane serverScroller;
+      private JLabel localLabel;
+      private DefaultListModel<String> localModel;
+      private JList<String> localList;
+      private JScrollPane localScroller;
+      private JButton loadServerButton;
+      private JButton loadLocalButton;
+      private JButton backButton;
+      private JLabel cpLabel2;
+      
+      private List<Map<String, Object>> results;
+   
+      public LoadDialog()
+      {         
+         super(theFrame, "Load Previous Results", true);
+         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
+         setResizable(false);
+         
+         leftPanel= new JPanel();
+         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+         leftPanel.add(Box.createRigidArea(new Dimension(0,4)));
+          
+         serverLabel= new JLabel("Server Results"); 
+         serverLabel.setFont(new Font("Arial", Font.BOLD, 12));
+         serverLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+         leftPanel.add(serverLabel);
+                  
+         try
+         {
+            results= serverMgr.loadTablefromServer("serialobjects");
+         }
+         catch(Exception e)
+         {
+            e.printStackTrace();
+            System.exit(1);
+         }
+         
+         serverModel= new DefaultListModel<String>();
+         for(int i=0;i<results.size();i++)
+            serverModel.addElement((String)results.get(i).get("title"));
+      
+         serverList= new JList<String>(serverModel);
+         serverList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+         serverList.setLayoutOrientation(JList.VERTICAL);
+         serverList.setVisibleRowCount(-1);
+         
+         serverScroller = new JScrollPane(serverList);
+         serverScroller.setPreferredSize(new Dimension(550, 234));
+         leftPanel.add(serverScroller);
+         leftPanel.add(Box.createRigidArea(new Dimension(0,10)));
+                  
+         localLabel= new JLabel("Local Results"); 
+         localLabel.setFont(new Font("Arial", Font.BOLD, 12));
+         localLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+         leftPanel.add(localLabel);
+                  
+         localModel= new DefaultListModel<String>();
+         String[] localResults= serverMgr.loadLocalList();
+         for(int i=0;i<localResults.length;i++)
+            localModel.addElement(localResults[i]);
+      
+         localList= new JList<String>(localModel);
+         localList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+         localList.setLayoutOrientation(JList.VERTICAL);
+         localList.setVisibleRowCount(-1);
+         
+         localScroller = new JScrollPane(localList);
+         localScroller.setPreferredSize(new Dimension(550, 234));
+         leftPanel.add(localScroller);
+         leftPanel.add(Box.createRigidArea(new Dimension(0,4)));
+            
+         add(Box.createRigidArea(new Dimension(8,0)));
+         add(leftPanel);
+         add(new JSeparator(SwingConstants.VERTICAL));
+      
+         rightPanel= new JPanel();
+         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+                  
+         loadServerButton= new JButton("Load Server");
+         loadServerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         loadServerButton.setActionCommand("loadserver");
+         loadServerButton.addActionListener(this);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         rightPanel.add(loadServerButton);
+      
+         loadLocalButton= new JButton("Load Local");
+         loadLocalButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         loadLocalButton.setActionCommand("loadlocal");
+         loadLocalButton.addActionListener(this);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         rightPanel.add(loadLocalButton);
+      
+         backButton= new JButton("Back");
+         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         backButton.setActionCommand("back");
+         backButton.addActionListener(this);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         rightPanel.add(backButton);
+         rightPanel.add(Box.createVerticalGlue());
+      
+         cpLabel2= new JLabel("<html><center>CE2006 Term Project<br>Team Secret<br>S2 2017</center></html>");
+         cpLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+         rightPanel.add(cpLabel2);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+      
+         add(rightPanel);
+         add(Box.createRigidArea(new Dimension(8,0)));
+         pack();
+         setVisible(true);
+      }
+      
+      public void actionPerformed(ActionEvent e)
+      {
+         if(e.getActionCommand().equals("loadserver"))
+         {
+            if(serverList.getSelectedIndex()>-1)
+            {
+               theFrame.dispose();
+               setVisible(false);
+               dispose();
+               try
+               {
+                  new ComparisonUI(username, serverMgr, theResult, serverMgr.loadSerialRow(serverModel.get(serverList.getSelectedIndex())));
+               }
+               catch(Exception e2)
+               {
+                  e2.printStackTrace();
+               }
+            }
+            else
+               JOptionPane.showMessageDialog(this ,"Please select an option.", "Load Error", JOptionPane.ERROR_MESSAGE);          
+         }
+         else if(e.getActionCommand().equals("loadlocal"))
+         {
+            if(localList.getSelectedIndex()>-1)
+            {
+               theFrame.dispose();
+               setVisible(false);
+               dispose();
+               new ComparisonUI(username, serverMgr, theResult, serverMgr.loadLocal(localModel.get(localList.getSelectedIndex())));
+            }
+            else
+               JOptionPane.showMessageDialog(this ,"Please select an option.", "Load Error", JOptionPane.ERROR_MESSAGE);          
+         }
+         else
+         {
+            setVisible(false);
+            dispose();
+            theFrame.setVisible(true);
+         }   
       }
    }
 

@@ -33,7 +33,7 @@ public class SurveyUI
 
    public SurveyUI(String uN, ServerMgr sM)
    {         
-      startFrame= new JFrame("SurveyUI Test");
+      startFrame= new JFrame("Dream Course Finder");
       startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       startFrame.setLayout(new BoxLayout(startFrame.getContentPane(), BoxLayout.X_AXIS));
       startFrame.setResizable(false);
@@ -41,7 +41,7 @@ public class SurveyUI
       leftPanel= new JPanel();
       leftPanel.setLayout(new FlowLayout());
          
-      splashIcon= new ImageIcon(getImageFile("TestImage.png"));   
+      splashIcon= new ImageIcon(getImageFile("splash.png"));   
       splashLabel= new JLabel(splashIcon);
       leftPanel.add(splashLabel);
             
@@ -123,6 +123,7 @@ public class SurveyUI
          else
          {
             startFrame.setVisible(false);
+            startFrame.dispose();
             new LoadDialog();
          }
       }
@@ -251,21 +252,41 @@ public class SurveyUI
       {
          if(e.getActionCommand().equals("loadserver"))
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
-            System.out.println(serverList.getSelectedIndex() + " " + "\n" + localList.getSelectedIndex());
+            if(serverList.getSelectedIndex()>-1)
+            {
+               startFrame.dispose();
+               setVisible(false);
+               dispose();
+               try
+               {
+                  new ResultUI(username, serverMgr, serverMgr.loadSerialRow(serverModel.get(serverList.getSelectedIndex())));
+               }
+               catch(Exception e2)
+               {
+                  e2.printStackTrace();
+               }
+            }
+            else
+               JOptionPane.showMessageDialog(this ,"Please select an option.", "Load Error", JOptionPane.ERROR_MESSAGE);          
          }
          else if(e.getActionCommand().equals("loadlocal"))
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
-            System.out.println(localModel.get(localList.getSelectedIndex()));
-            new ResultUI(username, serverMgr, serverMgr.loadLocal("results/" + localModel.get(localList.getSelectedIndex())));
+            if(localList.getSelectedIndex()>-1)
+            {
+               startFrame.dispose();
+               setVisible(false);
+               dispose();
+               new ResultUI(username, serverMgr, serverMgr.loadLocal(localModel.get(localList.getSelectedIndex())));
+            }
+            else
+               JOptionPane.showMessageDialog(this ,"Please select an option.", "Load Error", JOptionPane.ERROR_MESSAGE);          
          }
          else
          {
             setVisible(false);
             dispose();
             startFrame.setVisible(true);
-         }
+         }   
       }
    }
       
@@ -387,7 +408,7 @@ public class SurveyUI
             }
             else
             {
-               JOptionPane.showMessageDialog(null ,"All questions answered.", "HELLO", JOptionPane.WARNING_MESSAGE);          
+               JOptionPane.showMessageDialog(null ,"Survey completed!\nPress ok to proceed\nto the results screen.", "All Done", JOptionPane.INFORMATION_MESSAGE);          
                Result theResult= surveyMgr.createResult();
                ApiMgr apiMgr= new ApiMgr();
                apiMgr.processRawChoices(theResult);

@@ -34,7 +34,8 @@ public class ServerMgr
       File data= new File(filename.toString());
       File list= new File("results/_resultsList.txt");      
       FileOutputStream dataOut= null, listOut= null;
-      ObjectOutputStream dataWriter= null, listWriter= null;
+      ObjectOutputStream dataWriter= null;
+      PrintWriter listWriter= null;
       
       try
       {
@@ -45,11 +46,9 @@ public class ServerMgr
          dataOut= new FileOutputStream(data, false);
          listOut= new FileOutputStream(list, true);
          dataWriter= new ObjectOutputStream(dataOut);
-         listWriter= new ObjectOutputStream(listOut);
+         listWriter= new PrintWriter(listOut);
          
-         if(list.exists())
-            listWriter.writeChar('\n');
-         listWriter.writeChars(filename.toString());
+         listWriter.println(filename.toString());
          dataWriter.writeObject(theResult);            
       
          dataWriter.close();
@@ -389,8 +388,7 @@ public class ServerMgr
    {
       DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
       Date date = new Date();
-      StringBuilder temp= new StringBuilder();
-      temp.append(username);
+      StringBuilder temp= new StringBuilder(username);
       temp.append(dateFormat.format(date));
       String title= temp.toString();
       
@@ -404,19 +402,22 @@ public class ServerMgr
          ByteArrayInputStream bais = new ByteArrayInputStream(serialAsBytes);
          String sql = "INSERT INTO serialobjects (title, serial) VALUES (?, ?)";
          PreparedStatement stmt = con.prepareStatement(sql);
-         stmt.setString(1, "title");
+         stmt.setString(1, title);
          stmt.setBinaryStream(2, bais, serialAsBytes.length);
          stmt.executeUpdate();
          stmt.close();
          con.close();
          status = 1;
       }
+      catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e){
+         System.out.println("Duplicate Key");
+         status = 2;
+      }
       finally{
          ;
       }
       return status;
-   }
-	
+   } 
 
    public Result loadSerialRow(String title) throws SQLException, ClassNotFoundException, IOException{
    	
