@@ -11,12 +11,22 @@ public class Result
 {
    private int[] rawChoices;
    private int[] importances;
-   private String[] processedAnswers;
+   private String[] processedChoices;
+   private int[] processedImportances;
+   private String[] recommended;
    
    public Result(int[] rA, int[] i)
    {
       rawChoices= rA;
-      importances= i;
+      importances= i; 
+      processedChoices= null;
+      processedImportances= null;
+      recommended= null;
+   }
+   
+   public int getRawChoice(int index)
+   {
+      return(rawChoices[index]);
    }
    
    public int getQuestionNum()
@@ -28,10 +38,38 @@ public class Result
    {
       return(importances[index]);
    }
-   
-   public void setProcessedAnswers(String[] pA)
+      
+   public String getProcessedChoice(int index)
    {
-      processedAnswers= pA;
-      assert(processedAnswers.length==(rawChoices.length-1));
+	   return processedChoices[index];
+   }
+   
+   public int getProcessedImportance(int index)
+   {
+	   return processedImportances[index];
+   }
+   
+   public String getRecommendedData(int index)
+   {
+      return(recommended[index]);
+   }
+   
+   public void setProcessedChoices(String[] pC)
+   {
+      processedChoices= pC;
+      assert(processedChoices.length==(rawChoices.length-1));
+   
+      int[] output= new int[importances.length-1];
+	   for(int i= 0;i<output.length;i++)
+		   output[i]= importances[i+1];
+	   
+	   processedImportances= output;
+   }
+   
+   public void setRecommended(String[] rec)
+   {
+      recommended = rec;
+      for(int i=0;i<recommended.length;i++)
+         System.out.println(recommended[i] + " ");
    }
 }
