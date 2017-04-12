@@ -651,17 +651,24 @@ public class ApiMgr
          }
          
       }
-      /* comparison of importance */
-      if(highestSalary[1] == Integer.parseInt(highestEmployRate[1])){ //check if it is the same record in both arrays
-         r.setRecommended(searchResults.get(highestSalary[1]));
+      if(searchResults.size() == 0){
+         String[] empty = {"Not Found", "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", "Not Found"};
+         searchResults.add(empty);
+         r.setRecommended(searchResults.get(0)); 
       }
-      else{ // else we compare the weights
-         if(salaryImpt>employRateImpt){
+      else{
+         /* comparison of importance */
+         if(highestSalary[1] == Integer.parseInt(highestEmployRate[1])){ //check if it is the same record in both arrays
             r.setRecommended(searchResults.get(highestSalary[1]));
          }
-         else{
-            r.setRecommended(searchResults.get(Integer.parseInt(highestEmployRate[1])));
-         }
+         else{ // else we compare the weights
+            if(salaryImpt>employRateImpt){
+               r.setRecommended(searchResults.get(highestSalary[1]));
+            }
+            else{
+               r.setRecommended(searchResults.get(Integer.parseInt(highestEmployRate[1])));
+            }
+           }
            
       }
    }
