@@ -140,7 +140,8 @@ public class SurveyUI
       private DefaultListModel<String> localModel;
       private JList<String> localList;
       private JScrollPane localScroller;
-      private JButton loadButton;
+      private JButton loadServerButton;
+      private JButton loadLocalButton;
       private JButton backButton;
       private JLabel cpLabel2;
       
@@ -192,9 +193,9 @@ public class SurveyUI
          leftPanel.add(localLabel);
                   
          localModel= new DefaultListModel<String>();
-         localModel.addElement("Jane Doe");
-         localModel.addElement("John Smith");
-         localModel.addElement("Kathy Green");
+         String[] localResults= serverMgr.loadLocalList();
+         for(int i=0;i<localResults.length;i++)
+            localModel.addElement(localResults[i]);
       
          localList= new JList<String>(localModel);
          localList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -213,12 +214,19 @@ public class SurveyUI
          rightPanel= new JPanel();
          rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
                   
-         loadButton= new JButton("Load");
-         loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-         loadButton.setActionCommand("load");
-         loadButton.addActionListener(this);
+         loadServerButton= new JButton("Load Server");
+         loadServerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         loadServerButton.setActionCommand("loadserver");
+         loadServerButton.addActionListener(this);
          rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
-         rightPanel.add(loadButton);
+         rightPanel.add(loadServerButton);
+      
+         loadLocalButton= new JButton("Load Local");
+         loadLocalButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         loadLocalButton.setActionCommand("loadlocal");
+         loadLocalButton.addActionListener(this);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         rightPanel.add(loadLocalButton);
       
          backButton= new JButton("Back");
          backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -241,10 +249,16 @@ public class SurveyUI
       
       public void actionPerformed(ActionEvent e)
       {
-         if(e.getActionCommand().equals("load"))
+         if(e.getActionCommand().equals("loadserver"))
          {
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
             System.out.println(serverList.getSelectedIndex() + " " + "\n" + localList.getSelectedIndex());
+         }
+         else if(e.getActionCommand().equals("loadlocal"))
+         {
+            JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+            System.out.println(localModel.get(localList.getSelectedIndex()));
+            new ResultUI(username, serverMgr, serverMgr.loadLocal("results/" + localModel.get(localList.getSelectedIndex())));
          }
          else
          {

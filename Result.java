@@ -6,8 +6,9 @@ Stores result data
 */
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Result
+public class Result implements Serializable
 {
    private int[] rawChoices;
    private int[] importances;

@@ -192,15 +192,32 @@ public class ResultUI
          if(e.getActionCommand().equals("server"))
          {
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Server\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+            try
+            {
+               serverMgr.saveSerial(username, theResult);
+            }
+            catch(Exception e2)
+            {
+               e2.printStackTrace();
+            }   
          }
          else if(e.getActionCommand().equals("local"))
          {
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Local\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
-            serverMgr.saveLocal(username,theResult);
+            serverMgr.saveLocal(username, theResult);
          } 
          else if(e.getActionCommand().equals("both"))
          {
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Both\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+            try
+            {
+               serverMgr.saveSerial(username, theResult);
+            }
+            catch(Exception e2)
+            {
+               e2.printStackTrace();
+            }   
+            serverMgr.saveLocal(username, theResult);
          }
       
          setVisible(false);
