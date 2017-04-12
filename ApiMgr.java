@@ -248,16 +248,20 @@ public class ApiMgr
            // engineering
             switch (r.getRawChoice(1)) {
                case 0:
-                   // electronics or mechanics
-                  course = "Electronic/Mechanical Engineering";
+                   // electronics
+                  course = "Electrical";
                   break;
                case 1:
+                   // mechanics
+                  course = "Mechanical";
+                  break;
+               case 2:
                    // Science
                   course  = "Engineering Science";
                   break;
-               case 2:
+               case 3:
                    // Information
-                  course = "Information Engineering";
+                  course = "Info";
                   break;
                default:
                    // Anything
@@ -278,7 +282,7 @@ public class ApiMgr
                   break;
                default:
                    //both
-                  course = "Computing";
+                  course = "Comput";
                   break;
             }
             break;
@@ -286,16 +290,12 @@ public class ApiMgr
            // accountancy and business
             switch (r.getRawChoice(1)) {
                case 0:
-                   // mathematics
-                  course = "Business Mathematics";
+                   // accountancy
+                  course = "Accountancy";
                   break;
                case 1:
                    // Operations/planning
-                  course = "Operations";
-                  break;
-               default:
-                   // both
-                  course = "Accountancy and Business";
+                  course = "Business";
                   break;
             }
             break;
@@ -303,17 +303,16 @@ public class ApiMgr
                // art design media
             switch (r.getRawChoice(1)) {
                case 0:
-                       // animation
-                  course = "Animation";
+                       // media
+                  course = "Media";
                   break;
                case 1:
                        // photography
                   course = "Photography";
                   break;
                case 2:
-                       // design/innovation
-                  course = "Design";
-                  break;
+            	   	   // design
+            	   course = "Design";
                default:
                        // anything
                   course = "Art";
@@ -322,11 +321,11 @@ public class ApiMgr
             break;
          case 4:
                // comms studies
-            course = "Communications Studies";
+            course = "Communication";
             break;
          case 5:
                // sports
-            course = "Sports";
+            course = "Sport";
             break;
          case 6:
            // health
@@ -347,36 +346,36 @@ public class ApiMgr
                    // nursing
                   course = "Nursing";
                   break;
-               default:
-                   // anything
-                  course = "Health";
-                  break;
             }
             break;
          case 7:
            // humanities
             switch (r.getRawChoice(1)) {
                case 0:
+                   // psychology
+                  course = "Psych";
+                  break;
+               case 1:
+                   // sociology
+                  course = "Soci";
+                  break;
+               case 2:
                    // language studies
                   course = "Language Studies";
                   break;
-               case 1:
-                   // society
-                  course = "Society";
-                  break;
-               case 2:
-                   // history
+               case 3:
+                   // language studies
                   course = "History";
                   break;
                default:
                    // anything
-                  course = "Humanities";
+                  course = "Human";
                   break;
             }
             break;
          case 8:
-               // language
-            course = "Language";
+               // Linguistics
+            course = "Lingui";
             break;
          case 9:
            // science
@@ -395,11 +394,11 @@ public class ApiMgr
                   break;
                case 3:
                    // food
-                  course = "Food Science";
+                  course = "Food";
                   break;
                case 4:
                    // data
-                  course = "Data Science";
+                  course = "Data";
                   break;
                default:
                    // anything
@@ -424,7 +423,7 @@ public class ApiMgr
                   break;
                default:
                    // anything
-                  course = "Mathematics";
+                  course = "Math";
                   break;
             }
             break;
@@ -574,12 +573,32 @@ public class ApiMgr
       while((temp2= br.readLine()) != null){
          temp2 = temp2.replaceAll(", $", "");
          temp = temp2.split(",");
+         if(course.equals("Engineering")||course.equals("Comput")||course.equals("Art")||course.equals("Human")||course.equals("Science")||course.equals("Math")){
+        	 if(temp[1].trim().contains(course)){
+        		 searchResults.add(temp);
+        		 if(!temp[9].trim().equals("na")){
+                     if(Integer.parseInt(temp[9].trim()) > maxSalary){
+                        maxSalary = Integer.parseInt(temp[9].trim());
+                        highestSalary[0] = Integer.parseInt(temp[9].trim());
+                        highestSalary[1] = count;
+                     }
+                  }
+                  if(!temp[12].trim().equals("na")){
+                     if(Double.parseDouble(temp[12]) > maxEmployRate){
+                        maxEmployRate = Double.parseDouble(temp[12]);
+                        highestEmployRate[0] = temp[12];
+                        highestEmployRate[1] = Integer.toString(count);
+                     }
+                  }
+                  count++;
+        	 }
+         }
          if(temp[2].trim().equals("Arts & Social Sciences")){
             if(temp[3].trim().contains(course)){
                searchResults.add(temp);
-               if(Integer.parseInt(temp[9]) > maxSalary){
-                  maxSalary = Integer.parseInt(temp[9]);
-                  highestSalary[0] = Integer.parseInt(temp[9]);
+               if(Integer.parseInt(temp[9]).trim() > maxSalary){
+                  maxSalary = Integer.parseInt(temp[9].trim());
+                  highestSalary[0] = Integer.parseInt(temp[9].trim());
                   highestSalary[1] = count;
                }
                if(Double.parseDouble(temp[12]) > maxEmployRate){
