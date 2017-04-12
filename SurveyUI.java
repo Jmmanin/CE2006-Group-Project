@@ -23,6 +23,7 @@ public class SurveyUI
    private JLabel splashLabel;
    private JButton newButton;
    private JButton loadButton;
+   private JButton logOutButton;
    private JLabel cpLabel;
    
    private ServerMgr serverMgr;
@@ -62,8 +63,14 @@ public class SurveyUI
       loadButton.setActionCommand("load");
       loadButton.addActionListener(theListener);
       rightPanel.add(loadButton);
-      rightPanel.add(Box.createVerticalGlue());
       
+      logOutButton= new JButton("Log Out");
+      logOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+      logOutButton.setActionCommand("logout");
+      logOutButton.addActionListener(theListener);
+      rightPanel.add(logOutButton);
+      rightPanel.add(Box.createVerticalGlue());
+   
       cpLabel= new JLabel("<html><center>CE2006 Term Project<br>Team Secret<br>S2 2017</center></html>");
       cpLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
       rightPanel.add(cpLabel);
@@ -103,6 +110,12 @@ public class SurveyUI
             startFrame.setVisible(false);
             startFrame.dispose();
             new QuestionFrame(0);
+         }
+         else if(e.getActionCommand().equals("logout"))
+         {
+            startFrame.setVisible(false);
+            startFrame.dispose();
+            new LogInUI();
          }
          else
          {
@@ -277,7 +290,7 @@ public class SurveyUI
          optionPanel= new JPanel();
          optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
          optionPanel.add(Box.createRigidArea(new Dimension(0,5)));
-
+      
          options= new JRadioButton[surveyMgr.getQuestion(currQuestion).getOptionsNum()];
          for(int i= 0;i<options.length;i++)
             options[i]= new JRadioButton(surveyMgr.getQuestion(currQuestion).getOption(i));
@@ -358,11 +371,11 @@ public class SurveyUI
             else
             {
                JOptionPane.showMessageDialog(null ,"All questions answered.", "HELLO", JOptionPane.WARNING_MESSAGE);          
-               Result theResult= surveyMgr.createResult();
-               ApiMgr apiMgr= new ApiMgr();
-               apiMgr.processRawAnswers(theResult);
-               apiMgr.weighAnswers(theResult);
-               new ResultUI();
+            //                Result theResult= surveyMgr.createResult();
+            //                ApiMgr apiMgr= new ApiMgr();
+            //                apiMgr.processRawAnswers(theResult);
+            //                apiMgr.weighAnswers(theResult);
+            //                new ResultUI();
             }   
          }
          else

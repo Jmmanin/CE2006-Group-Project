@@ -472,65 +472,7 @@ public class ApiMgr
          
       r.setProcessedAnswers(processed);
    }
-   
-   public void weighAnswers(Result r){
-      String highest = "";
-      String[] priority = new String[r.getQuestionNum()];
-       //String highest2 = ""; commented out portion for getting second weightage
-      int max = 0;
-      int temp;
-       //int max2 = 0;
-      for(int i = 0; i<priority.length;i++){
-         if(i%2 == 1){
-            temp = Integer.parseInt(r.getImportance(i));
-            if(temp > max){
-               max = temp;
-               highest = Integer.toString(i);
-                //max2 = max;
-                //highest2 = highest;
-            }
-            else if(temp == max){
-               highest = highest + "," + Integer.toString(i);
-            }
-         //            else if(temp < max){
-         //                if(temp > max2){
-         //                    max2 = temp;
-         //                }
-         //                else if(temp == max2){
-         //                    max2 = max2 + "," + Integer.toString(i);
-         //                }
-         //            }
-         }
-      }
-      priority = highest.split(",");
-      highest = "";
-      for (String priority1 : priority) {
-         temp = Integer.parseInt(priority1);
-         switch (temp) {
-            case 1:
-               highest = highest + "Course" + ", ";
-               break;
-            case 3:
-               highest = highest + "Salary" + ", ";
-               break;
-            case 5:
-               highest = highest + "Employment Rate" + ", ";
-               break;
-            case 7:
-               highest = highest + "Location" + ", ";
-               break;
-            case 9:
-               highest = highest + "Working Hours" + ", ";
-               break;
-            default:
-               highest = highest + "Working Environment";
-               break;
-         }
-           
-      }
-      return highest;
-   }
-   
+      
    public void courseFinder(String highest, List<String> result) throws IOException {
       BufferedReader br = new BufferedReader(new FileReader("Records.txt"));
       String temp[] = new String[13];

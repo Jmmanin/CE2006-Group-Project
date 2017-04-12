@@ -20,6 +20,7 @@ public class ComparisonUI
    private JButton saveButton;
    private JButton compareButton;
    private JButton newButton;
+   private JButton logOutButton;
    private JButton closeButton;
    private JLabel cpLabel;
    
@@ -76,6 +77,13 @@ public class ComparisonUI
       newButton.addActionListener(theListener);
       rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
       rightPanel.add(newButton);
+      
+      logOutButton= new JButton("Log Out");
+      logOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+      logOutButton.setActionCommand("logout");
+      logOutButton.addActionListener(theListener);
+      rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+      rightPanel.add(logOutButton);
    
       closeButton= new JButton("Close");
       closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -112,6 +120,12 @@ public class ComparisonUI
          else if(e.getActionCommand().equals("new"))
          {
             resultArea1.append(" *new clicked*");         
+         }
+         else if(e.getActionCommand().equals("logout"))
+         {
+            theFrame.setVisible(false);
+            theFrame.dispose();
+            new LogInUI();
          }
          else
          {
