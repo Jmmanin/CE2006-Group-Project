@@ -510,10 +510,30 @@ public class SurveyMgr
        }
        return highest;
    }
-   public static void courseFinder(String highest, List<String> result) throws IOException {
-       BufferedReader br = new BufferedReader(new FileReader("Records.txt"));
+   
+    public static void courseFinder(String highest, List<String> result) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("Records.txt"));
+       String temp[] = new String[13];
+       List<String> searchResults = new ArrayList<String>();
+       String course, salary, employRate, location, workHours, workEnv;
+       course = result.get(0);
+       salary = result.get(2);
+       employRate = result.get(4);
+       location = result.get(6);
+       workHours = result.get(8);
+       workEnv = result.get(10);
+
+       while(br.readLine() != null){
+            temp = br.readLine().split(",");
+            if(course.equals(temp[2].trim())){
+                System.out.println(temp[2]);
+                searchResults.add(Arrays.toString(temp));
+            }
+       }
+       System.out.println(searchResults);
        
    }
+   
    
    public static void main(String[] args) throws IOException
    {
