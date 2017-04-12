@@ -19,8 +19,7 @@ public class ApiMgr
    {
    
    }
-   
-      
+  
    public void getGradEmploymentSurvey() throws IOException {	
    
       final String FILENAME = "grademploymentsurvey.txt"; /* save to txt */
