@@ -1,47 +1,47 @@
 7
-Area of interest
+Area of interest(the type of degree you most wish to pursue) 
 13
 true
 Engineering
-4
-Electronics or mechanics
+5
+Electrical 
+Mechanical
 Science
 Information
-anything
+Give me any kind of engineering!
 Computing
 3
 Hardware
 Software
-Both
+Both. I want to die early!
 Accountancy and Business
-3
-Mathematics
-Operations/planning
-Anything
+2
+Accountancy
+Business
 Arts, Design and Media
 4
-Animation
+Media
 Photography
-Design/innovation
+Design
 Anything
 Communication Studies
 1
-Communication studies
+Communications studies
 Sports
 1
 Sports science and management
 Health
-5
+4
 Medicine
 Pharmacy
 Dentistry
 Nursing
-Anythng
 Humanities
-4
+5
+Psychology
+Sociology
 Language studies
-Society
-history
+History
 Anything
 Language
 1

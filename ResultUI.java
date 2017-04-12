@@ -42,10 +42,22 @@ public class ResultUI
       leftPanel= new JPanel();
       leftPanel.setLayout(new FlowLayout());
          
-      resultArea= new JTextArea("This is a sample result\n");
-      for(int i=0;i<13;i++)
-         resultArea.append(theResult.getRecommendedData(i) + "\n");
-      resultArea.append(username);   
+      resultArea= new JTextArea("This is the recommended course :\n");
+      
+      resultArea.append("University :" + theResult.getRecommendedData(3) + "\n"); // university
+      resultArea.append("Course of study :" + theResult.getRecommendedData(2) + "\n"); // degree
+      resultArea.append("Faculty :" + theResult.getRecommendedData(1) + "\n"); // faculty
+      resultArea.append("Permanent employment rate :" + theResult.getRecommendedData(5) + "\n"); // permanent employment rate
+      resultArea.append("Overall employment rate :" + theResult.getRecommendedData(12) + "\n"); // overall employment rate
+      resultArea.append("Basic monthly mean salary :" + theResult.getRecommendedData(8) + "\n"); // basic monthly mean salary
+      resultArea.append("Gross monthly mean salary :" + theResult.getRecommendedData(9) + "\n"); // gross monthly mean salary
+      resultArea.append("Basic monthly median salary :" + theResult.getRecommendedData(6) + "\n"); // basic monthly median salary
+      resultArea.append("Gross monthly median salary :" + theResult.getRecommendedData(4) + "\n"); // gross monthly median salary
+      resultArea.append("Gross monthy salary at the 25th percentile :" + theResult.getRecommendedData(0) + "\n"); // gross monthly salary at the 25th percentile of those who pursued this degree 
+      resultArea.append("Gross monthly salary at the 75th percentile :" + theResult.getRecommendedData(7) + "\n"); // gross monthly salary at the 75th percentile of those who pursued this degree
+      resultArea.append("This data was obtained in " + theResult.getRecommendedData(10) + "\n"); // year of the record shown
+      //resultArea.append(theResult.getRecommendedData(11) + "\n"); omitted as it is not relevant to search
+   
       resultArea.setPreferredSize(new Dimension(550, 450));
       resultArea.setEditable(false);
       resultArea.setLineWrap(true);
