@@ -66,8 +66,10 @@ public class Result
 	   processedImportances= output;
    }
    
-   public void setRecommended(String rec)
+   public void setRecommended(String[] rec)
    {
-	   recommended = rec.split(",");
+      recommended = rec;
+      for(int i=0;i<recommended.length;i++)
+         System.out.println(recommended[i] + " ");
    }
 }

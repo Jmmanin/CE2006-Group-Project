@@ -121,122 +121,122 @@ public class ApiMgr
 	 
     
    public void processApiData() throws IOException {
-	   BufferedReader br = new BufferedReader(new FileReader("grademploymentsurvey.txt"));
-		BufferedWriter bw = new BufferedWriter(new FileWriter("Courses.txt"));
-		BufferedWriter bw2 = new BufferedWriter(new FileWriter("Records.txt"));
-		br.skip(754);//skip useless stuff
-		String data = br.readLine();// read from file
-		data = data.replaceAll("\\{", "");//replace unwanted stuff
-		data = data.replaceAll("}", "");
-		String[] dataArray = data.split(",");//split data
-		String[] records = new String[dataArray.length-12];//12 unnecessary array slots
-		String[] finalrecord = new String[dataArray.length-12];//same
-		List<String> NUS = new ArrayList<String>();
-		List<String> NTU = new ArrayList<String>();
-		List<String> SMU = new ArrayList<String>();
-		List<String> SUTD = new ArrayList<String>();
-		String temp = "";
-		String temp1 = "";
-		int recordNum = 0;
-		int count = 0;
-		for(int i=0;i<dataArray.length-3;i++){// because last 3 records are not relevant
-			temp = dataArray[i];
-			temp = temp.replaceAll("\"", "");//more replacing of unwanted stuff
-			temp = temp.replaceAll("]", "");
-			temp = temp.trim();
-			if(temp.equals("school: College of Humanities")|| temp.equals("degree: Art")){
-				temp1 = temp;
-				continue;
-			}
-			else if(temp.equals("Arts & Social Sciences")||temp.equals("Design & Media")){
-				temp = temp1 + ","+ temp;
-			}
-			records[recordNum] = temp;
-			recordNum++;
-		}
-		for(int i=0; i<records.length;i++){
-			temp = records[i];
-			dataArray = temp.split(":");
-			finalrecord[i] = dataArray[1].trim();
-			if(i>2)
-				count++;
-			if(count == 1){
-				if(finalrecord[i].equals("National University of Singapore")){
-					NUS.add(finalrecord[i-1]);
-				}
-				else if(finalrecord[i].equals("Nanyang Technological University")){
-					NTU.add(finalrecord[i-1]);
-				}
-				else if(finalrecord[i].equals("Singapore Management University")){
-					SMU.add(finalrecord[i-1]);
-				}
-				else{
-					SUTD.add(finalrecord[i-1]);
-				}
-				
-			}
-			if(i == 2 || count == 13){
-				count = 0;
-			}
-		}
-		
-		bw.write("NUS");
-		bw.newLine();
-		for(String str : NUS){
-			bw.write(str);
-			bw.newLine();
-		}
-
-		bw.write("NTU");
-		bw.newLine();
-		for(String str : NTU){
-			bw.write(str);
-			bw.newLine();
-		}
-		
-		bw.write("SMU");
-		bw.newLine();
-		for(String str : SMU){
-			bw.write(str);
-			bw.newLine();
-		}
-		bw.write("SUTD");
-		bw.newLine();
-		for(String str : SUTD){
-			bw.write(str);
-			bw.newLine();
-		}
-		/* the code below strips away the description ie University : NUS. "University :" is stripped away */
-		for(int i=0; i<records.length;i++){
-			temp = records[i];
-			System.out.println(temp);
-			dataArray = temp.split(":");
-			finalrecord[i] = dataArray[1].trim();
-		}
-		
-		/* the code below creates Records.txt file to store all information about a single course*/
-		for(int i = 0; i < finalrecord.length; i++){ // records are stored in the format grs mthly 25th percentile, school, degree, uni, grs mthy median, perm employment rate, basic monthly median, grs mthy 75 percentile, grs mthly mean, basic mthly mean, the year this record was from, id of record
-			if(i == 0){
-				count = 0;
-				bw2.write(finalrecord[i]);
-				bw2.write(", ");
-			}
-			else if(count<12){
-				count++;
-				bw2.write(finalrecord[i]);
-				bw2.write(", ");
-			}
-			else if(count == 12){
-				count = 0;
-				bw2.newLine();
-				bw2.write(finalrecord[i]);
-				bw2.write(", ");
-			}
-		}
-		bw2.close();
-		bw.close();
-		br.close();
-	}       
+      BufferedReader br = new BufferedReader(new FileReader("grademploymentsurvey.txt"));
+      BufferedWriter bw = new BufferedWriter(new FileWriter("Courses.txt"));
+      BufferedWriter bw2 = new BufferedWriter(new FileWriter("Records.txt"));
+      br.skip(754);//skip useless stuff
+      String data = br.readLine();// read from file
+      data = data.replaceAll("\\{", "");//replace unwanted stuff
+      data = data.replaceAll("}", "");
+      String[] dataArray = data.split(",");//split data
+      String[] records = new String[dataArray.length-12];//12 unnecessary array slots
+      String[] finalrecord = new String[dataArray.length-12];//same
+      List<String> NUS = new ArrayList<String>();
+      List<String> NTU = new ArrayList<String>();
+      List<String> SMU = new ArrayList<String>();
+      List<String> SUTD = new ArrayList<String>();
+      String temp = "";
+      String temp1 = "";
+      int recordNum = 0;
+      int count = 0;
+      for(int i=0;i<dataArray.length-3;i++){// because last 3 records are not relevant
+         temp = dataArray[i];
+         temp = temp.replaceAll("\"", "");//more replacing of unwanted stuff
+         temp = temp.replaceAll("]", "");
+         temp = temp.trim();
+         if(temp.equals("school: College of Humanities")|| temp.equals("degree: Art")){
+            temp1 = temp;
+            continue;
+         }
+         else if(temp.equals("Arts & Social Sciences")||temp.equals("Design & Media")){
+            temp = temp1 + ","+ temp;
+         }
+         records[recordNum] = temp;
+         recordNum++;
+      }
+      for(int i=0; i<records.length;i++){
+         temp = records[i];
+         dataArray = temp.split(":");
+         finalrecord[i] = dataArray[1].trim();
+         if(i>2)
+            count++;
+         if(count == 1){
+            if(finalrecord[i].equals("National University of Singapore")){
+               NUS.add(finalrecord[i-1]);
+            }
+            else if(finalrecord[i].equals("Nanyang Technological University")){
+               NTU.add(finalrecord[i-1]);
+            }
+            else if(finalrecord[i].equals("Singapore Management University")){
+               SMU.add(finalrecord[i-1]);
+            }
+            else{
+               SUTD.add(finalrecord[i-1]);
+            }
+         	
+         }
+         if(i == 2 || count == 13){
+            count = 0;
+         }
+      }
+   	
+      bw.write("NUS");
+      bw.newLine();
+      for(String str : NUS){
+         bw.write(str);
+         bw.newLine();
+      }
+   
+      bw.write("NTU");
+      bw.newLine();
+      for(String str : NTU){
+         bw.write(str);
+         bw.newLine();
+      }
+   	
+      bw.write("SMU");
+      bw.newLine();
+      for(String str : SMU){
+         bw.write(str);
+         bw.newLine();
+      }
+      bw.write("SUTD");
+      bw.newLine();
+      for(String str : SUTD){
+         bw.write(str);
+         bw.newLine();
+      }
+   	/* the code below strips away the description ie University : NUS. "University :" is stripped away */
+      for(int i=0; i<records.length;i++){
+         temp = records[i];
+         System.out.println(temp);
+         dataArray = temp.split(":");
+         finalrecord[i] = dataArray[1].trim();
+      }
+   	
+   	/* the code below creates Records.txt file to store all information about a single course*/
+      for(int i = 0; i < finalrecord.length; i++){ // records are stored in the format grs mthly 25th percentile, school, degree, uni, grs mthy median, perm employment rate, basic monthly median, grs mthy 75 percentile, grs mthly mean, basic mthly mean, the year this record was from, id of record
+         if(i == 0){
+            count = 0;
+            bw2.write(finalrecord[i]);
+            bw2.write(", ");
+         }
+         else if(count<12){
+            count++;
+            bw2.write(finalrecord[i]);
+            bw2.write(", ");
+         }
+         else if(count == 12){
+            count = 0;
+            bw2.newLine();
+            bw2.write(finalrecord[i]);
+            bw2.write(", ");
+         }
+      }
+      bw2.close();
+      bw.close();
+      br.close();
+   }       
    
    public void processRawChoices(Result r){
       String[] processed = new String[r.getQuestionNum()-1];
@@ -560,7 +560,7 @@ public class ApiMgr
    public void courseFinder(Result r) throws IOException {
       BufferedReader br = new BufferedReader(new FileReader("Records.txt"));
       String temp[] = new String[13];
-      List<String> searchResults = new ArrayList<String>();
+      List<String[]> searchResults = new ArrayList<String[]>();
       String course, temp2;
       course = r.getProcessedChoice(0); // get the search parameter
       int salaryImpt = r.getProcessedImportance(1);
@@ -571,56 +571,55 @@ public class ApiMgr
       int[] highestSalary = new int[2];
       String[] highestEmployRate = new String[2];
       br.readLine(); // skip line
-      while(br.readLine() != null){
-          temp2 = br.readLine();
-          temp2 = temp2.replaceAll(", $", "");
-          temp = temp2.split(",");
-          if(temp[2].trim().equals("Arts & Social Sciences")){
-              if(temp[3].trim().contains(course)){
-                  searchResults.add(temp.toString());
-                  if(Integer.parseInt(temp[9]) > maxSalary){
-                      maxSalary = Integer.parseInt(temp[9]);
-                      highestSalary[0] = Integer.parseInt(temp[9]);
-                      highestSalary[1] = count;
-                  }
-                  if(Double.parseDouble(temp[12]) > maxEmployRate){
-                      maxEmployRate = Double.parseDouble(temp[12]);
-                      highestEmployRate[0] = temp[12];
-                      highestEmployRate[1] = Integer.toString(count);
-                  }
-                  count++;
-              }
-          }
-          if(temp[2].trim().contains(course)){
-              searchResults.add(temp.toString());
-              if(!temp[9].trim().equals("na")){
-                  if(Integer.parseInt(temp[9].trim()) > maxSalary){
-                      maxSalary = Integer.parseInt(temp[9].trim());
-                      highestSalary[0] = Integer.parseInt(temp[9].trim());
-                      highestSalary[1] = count;
-                  }
-              }
-              if(!temp[12].trim().equals("na")){
-                  if(Double.parseDouble(temp[12]) > maxEmployRate){
-                      maxEmployRate = Double.parseDouble(temp[12]);
-                      highestEmployRate[0] = temp[12];
-                      highestEmployRate[1] = Integer.toString(count);
-                  }
-              }
-              count++;
-          }
+      while((temp2= br.readLine()) != null){
+         temp2 = temp2.replaceAll(", $", "");
+         temp = temp2.split(",");
+         if(temp[2].trim().equals("Arts & Social Sciences")){
+            if(temp[3].trim().contains(course)){
+               searchResults.add(temp);
+               if(Integer.parseInt(temp[9]) > maxSalary){
+                  maxSalary = Integer.parseInt(temp[9]);
+                  highestSalary[0] = Integer.parseInt(temp[9]);
+                  highestSalary[1] = count;
+               }
+               if(Double.parseDouble(temp[12]) > maxEmployRate){
+                  maxEmployRate = Double.parseDouble(temp[12]);
+                  highestEmployRate[0] = temp[12];
+                  highestEmployRate[1] = Integer.toString(count);
+               }
+               count++;
+            }
+         }
+         if(temp[2].trim().contains(course)){
+            searchResults.add(temp);
+            if(!temp[9].trim().equals("na")){
+               if(Integer.parseInt(temp[9].trim()) > maxSalary){
+                  maxSalary = Integer.parseInt(temp[9].trim());
+                  highestSalary[0] = Integer.parseInt(temp[9].trim());
+                  highestSalary[1] = count;
+               }
+            }
+            if(!temp[12].trim().equals("na")){
+               if(Double.parseDouble(temp[12]) > maxEmployRate){
+                  maxEmployRate = Double.parseDouble(temp[12]);
+                  highestEmployRate[0] = temp[12];
+                  highestEmployRate[1] = Integer.toString(count);
+               }
+            }
+            count++;
+         }
       }
       /* comparison of importance */
       if(highestSalary[1] == Integer.parseInt(highestEmployRate[1])){ //check if it is the same record in both arrays
-          System.out.println(searchResults.get(highestSalary[1]));
+         r.setRecommended(searchResults.get(highestSalary[1]));
       }
       else{ // else we compare the weights
-          if(salaryImpt>employRateImpt){
-              r.setRecommended(searchResults.get(highestSalary[1]));
-          }
-          else{
-              r.setRecommended(searchResults.get(Integer.parseInt(highestEmployRate[1])));
-          }
+         if(salaryImpt>employRateImpt){
+            r.setRecommended(searchResults.get(highestSalary[1]));
+         }
+         else{
+            r.setRecommended(searchResults.get(Integer.parseInt(highestEmployRate[1])));
+         }
            
       }
    }
@@ -628,6 +627,10 @@ public class ApiMgr
    
    public static void main(String[] args) throws IOException  {
       ApiMgr example= new ApiMgr();
-      example.getGradEmploymentSurvey();
+      int[] test= {1,0,0,0,0,0,0};
+      int[] test2= {0,0,0,0,0,0,0};
+      Result test3= new Result(test,test2);
+      example.processRawChoices(test3);
+      example.courseFinder(test3);      
    }
 }
