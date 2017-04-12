@@ -113,7 +113,7 @@ public class LogInUI
                JOptionPane.showMessageDialog(logInFrame ,"Login Successful.\nWelcome back " + uNField.getText() + "!", "Login Success", JOptionPane.INFORMATION_MESSAGE);          
                logInFrame.setVisible(false);
                logInFrame.dispose();
-               new SurveyUI(serverMgr);
+               new SurveyUI(uNField.getText(),serverMgr);
             }
          }
       }
@@ -196,10 +196,10 @@ public class LogInUI
             password= new String(pwFieldCreate.getPassword());
             password2= new String(pwFieldCreate2.getPassword());
             
-            if(username.length()>20)
-               JOptionPane.showMessageDialog(this ,"Username entered exceeds maximum length.\nUsername must be less than 20 characters long.", "Invalid Username", JOptionPane.ERROR_MESSAGE);          
-            else if(password.length()>20)
-               JOptionPane.showMessageDialog(this ,"Password entered exceeds maximum length.\nPassword must be less than 20 characters long.", "Invalid Password", JOptionPane.ERROR_MESSAGE);          
+            if(username.length()==0 || username.length()>20)
+               JOptionPane.showMessageDialog(this ,"Invalid username length.\nUsername must be less than 20 characters long\nand at least 1 character long.", "Invalid Username", JOptionPane.ERROR_MESSAGE);          
+            else if(password.length()==0 || password.length()>20)
+               JOptionPane.showMessageDialog(this ,"Invalid password length.\nPassword must be less than 20 characters long\nand at least 1 character long.", "Invalid Password", JOptionPane.ERROR_MESSAGE);          
             else if(!password.equals(password2))
                JOptionPane.showMessageDialog(this ,"Passwords entered do not match.", "Password Mismatch", JOptionPane.ERROR_MESSAGE);          
             else
@@ -223,7 +223,7 @@ public class LogInUI
                   JOptionPane.showMessageDialog(this ,"User creation successful.\nWelcome " + uNFieldCreate.getText() + "!", "User Create Success", JOptionPane.INFORMATION_MESSAGE);          
                   logInFrame.setVisible(false);
                   logInFrame.dispose();
-                  new SurveyUI(serverMgr);
+                  new SurveyUI(username, serverMgr);
                }
             }
          }   

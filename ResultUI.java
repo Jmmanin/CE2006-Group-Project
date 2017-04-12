@@ -21,9 +21,17 @@ public class ResultUI
    private JButton logOutButton;
    private JButton closeButton;
    private JLabel cpLabel;
+   
+   private String username;
+   private ServerMgr serverMgr;
+   private Result theResult;
 
-   public ResultUI()
+   public ResultUI(String uN, ServerMgr sM, Result r)
    {
+      username= uN;
+      serverMgr= sM;
+      theResult= r;
+      
       theFrame= new JFrame("ResultUI Test");
       theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       theFrame.setLayout(new BoxLayout(theFrame.getContentPane(), BoxLayout.X_AXIS));
@@ -32,7 +40,10 @@ public class ResultUI
       leftPanel= new JPanel();
       leftPanel.setLayout(new FlowLayout());
          
-      resultArea= new JTextArea("This is a sample result");
+      resultArea= new JTextArea("This is a sample result\n");
+      for(int i=0;i<13;i++)
+         resultArea.append(theResult.getRecommendedData(i) + "\n");
+      resultArea.append(username);   
       resultArea.setPreferredSize(new Dimension(550, 450));
       resultArea.setEditable(false);
       resultArea.setLineWrap(true);
@@ -90,7 +101,7 @@ public class ResultUI
       theFrame.add(rightPanel);
       theFrame.add(Box.createRigidArea(new Dimension(8,0)));
       theFrame.pack();
-      theFrame.setVisible(true);
+      theFrame.setVisible(true);   
    }
    
    private class ResultListener implements ActionListener
@@ -198,6 +209,6 @@ public class ResultUI
 
    public static void main(String args[])
    {
-      new ResultUI();
+      new ResultUI("test", new ServerMgr(), null);
    }
 }

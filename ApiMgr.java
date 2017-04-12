@@ -9,7 +9,8 @@ import java.io.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
+import java.util.List;
+import java.util.ArrayList;
 
 public class ApiMgr
 {
@@ -235,18 +236,17 @@ public class ApiMgr
 		bw2.close();
 		bw.close();
 		br.close();
-	}
-   }       
+	}       
    
-   public void processRawAnswers(Result r){
+   public void processRawChoices(Result r){
       String[] processed = new String[r.getQuestionNum()-1];
       String course, salary, location, employRate, workHours, workEnv, courseImpt, salaryImpt, employRateImpt, locationImpt, workHoursImpt, workEnvImpt;
          
        /* this if branch checks for major*/
-      switch (choices[0]) {
+      switch (r.getRawChoice(0)) {
          case 0:
            // engineering
-            switch (choices[1]) {
+            switch (r.getRawChoice(1)) {
                case 0:
                    // electronics or mechanics
                   course = "Electronic/Mechanical Engineering";
@@ -267,7 +267,7 @@ public class ApiMgr
             break;
          case 1:
            // computing
-            switch (choices[1]) {
+            switch (r.getRawChoice(1)) {
                case 0:
                    // hardware
                   course = "Computer Engineering";
@@ -284,7 +284,7 @@ public class ApiMgr
             break;
          case 2:
            // accountancy and business
-            switch (choices[1]) {
+            switch (r.getRawChoice(1)) {
                case 0:
                    // mathematics
                   course = "Business Mathematics";
@@ -301,7 +301,7 @@ public class ApiMgr
             break;
          case 3:
                // art design media
-            switch (choices[1]) {
+            switch (r.getRawChoice(1)) {
                case 0:
                        // animation
                   course = "Animation";
@@ -330,7 +330,7 @@ public class ApiMgr
             break;
          case 6:
            // health
-            switch (choices[1]) {
+            switch (r.getRawChoice(1)) {
                case 0:
                    // medicine
                   course = "Medicine";
@@ -355,7 +355,7 @@ public class ApiMgr
             break;
          case 7:
            // humanities
-            switch (choices[1]) {
+            switch (r.getRawChoice(1)) {
                case 0:
                    // language studies
                   course = "Language Studies";
@@ -380,7 +380,7 @@ public class ApiMgr
             break;
          case 9:
            // science
-            switch (choices[1]) {
+            switch (r.getRawChoice(1)) {
                case 0:
                    // biology
                   course = "Biology";
@@ -413,7 +413,7 @@ public class ApiMgr
             break;
          case 11:
            // mathematics
-            switch (choices[1]) {
+            switch (r.getRawChoice(1)) {
                case 0:
                    // statistics
                   course = "Statistics";
@@ -435,7 +435,7 @@ public class ApiMgr
       }
          
        /* this if branch checks for salary*/
-      switch (choices[2]) {
+      switch (r.getRawChoice(2)) {
          case 0:
                // >= 3k
             salary = "3000";
@@ -463,7 +463,7 @@ public class ApiMgr
       }
       
        /* this branch checks for rate of employment */
-      switch (choices[3]) {
+      switch (r.getRawChoice(3)) {
          case 0:
                // >= 70%
             employRate = "70";
@@ -487,7 +487,7 @@ public class ApiMgr
       }
       
        /* this branch checks for location */
-      switch (choices[4]) {
+      switch (r.getRawChoice(4)) {
          case 0:
                // south west
             location = "South West";
@@ -503,7 +503,7 @@ public class ApiMgr
       }
       
       /* this branch checks for working hours */
-      switch (choices[5]){ 
+      switch (r.getRawChoice(5)){ 
            // flexible
          case 0:
             workHours = "Flexible";
@@ -515,7 +515,7 @@ public class ApiMgr
       }
       
        /* this branch checks for working environment */
-      switch (choices[6]) {
+      switch (r.getRawChoice(6)) {
          case 0:
                // office job
             workEnv = "Office";
@@ -562,9 +562,9 @@ public class ApiMgr
       String temp[] = new String[13];
       List<String> searchResults = new ArrayList<String>();
       String course, temp2;
-      course = r.getProcessedChoices(0); // get the search parameter
-      salaryImpt = r.getProcessedImportance(1);
-      employRateImpt = r.getProcessedImportance(2);
+      course = r.getProcessedChoice(0); // get the search parameter
+      int salaryImpt = r.getProcessedImportance(1);
+      int employRateImpt = r.getProcessedImportance(2);
       int count = 0;
       int maxSalary = 0;
       double maxEmployRate = 0.0;
@@ -577,22 +577,22 @@ public class ApiMgr
           temp = temp2.split(",");
           if(temp[2].trim().equals("Arts & Social Sciences")){
               if(temp[3].trim().contains(course)){
-                  searchResults.add(Arrays.toString(temp1));
-                  if(Integer.parseInt(temp1[9]) > maxSalary){
-                      maxSalary = Integer.parseInt(temp1[9]);
-                      highestSalary[0] = Integer.parseInt(temp1[9]);
+                  searchResults.add(temp.toString());
+                  if(Integer.parseInt(temp[9]) > maxSalary){
+                      maxSalary = Integer.parseInt(temp[9]);
+                      highestSalary[0] = Integer.parseInt(temp[9]);
                       highestSalary[1] = count;
                   }
-                  if(Double.parseDouble(temp1[12]) > maxEmployRate){
-                      maxEmployRate = Double.parseDouble(temp1[12]);
-                      highestEmployRate[0] = temp1[12];
+                  if(Double.parseDouble(temp[12]) > maxEmployRate){
+                      maxEmployRate = Double.parseDouble(temp[12]);
+                      highestEmployRate[0] = temp[12];
                       highestEmployRate[1] = Integer.toString(count);
                   }
                   count++;
               }
           }
           if(temp[2].trim().contains(course)){
-              searchResults.add(Arrays.toString(temp1));
+              searchResults.add(temp.toString());
               if(!temp[9].trim().equals("na")){
                   if(Integer.parseInt(temp[9].trim()) > maxSalary){
                       maxSalary = Integer.parseInt(temp[9].trim());

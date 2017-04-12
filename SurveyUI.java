@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.util.List;
 import java.util.Map;
 import java.sql.SQLException;
+import java.io.IOException;
 
 public class SurveyUI
 {
@@ -26,10 +27,11 @@ public class SurveyUI
    private JButton logOutButton;
    private JLabel cpLabel;
    
+   private String username;
    private ServerMgr serverMgr;
    private SurveyMgr surveyMgr;
 
-   public SurveyUI(ServerMgr sM)
+   public SurveyUI(String uN, ServerMgr sM)
    {         
       startFrame= new JFrame("SurveyUI Test");
       startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,6 +83,7 @@ public class SurveyUI
       startFrame.pack();
       startFrame.setVisible(true);
       
+      username= uN;
       serverMgr= sM;
       surveyMgr= new SurveyMgr("survey_questions.txt");
       surveyMgr.generateQuestions();
@@ -371,11 +374,18 @@ public class SurveyUI
             else
             {
                JOptionPane.showMessageDialog(null ,"All questions answered.", "HELLO", JOptionPane.WARNING_MESSAGE);          
-            //                Result theResult= surveyMgr.createResult();
-            //                ApiMgr apiMgr= new ApiMgr();
-            //                apiMgr.processRawAnswers(theResult);
-            //                apiMgr.weighAnswers(theResult);
-            //                new ResultUI();
+               Result theResult= surveyMgr.createResult();
+               ApiMgr apiMgr= new ApiMgr();
+               apiMgr.processRawChoices(theResult);
+               try
+               {
+                  apiMgr.courseFinder(theResult);
+               }
+               catch(IOException e2)
+               {
+                  e2.printStackTrace();
+               }
+               new ResultUI(username, serverMgr, theResult);
             }   
          }
          else
@@ -387,6 +397,6 @@ public class SurveyUI
             
    public static void main(String args[])
    {
-      new SurveyUI(new ServerMgr());
+      new SurveyUI("test", new ServerMgr());
    }   
 }
