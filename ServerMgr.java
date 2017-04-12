@@ -73,7 +73,9 @@ public class ServerMgr {
 		return results;
 	}
 
-	public void loadRowfromServer(String tableName, String loc) {
+	public List<Map<String, Object>> loadRowfromServer(String tableName, String loc) {
+		List<Map<String, Object>> results = null;
+
 		try {
 			Connection con = createConnection(); /*
 			 * connect to server using
@@ -81,12 +83,13 @@ public class ServerMgr {
 			 */
 			ResultSet rs = selectQuery(tableName, loc,
 					con); /* submit query to show a row from table 'emp' */
-			List<Map<String, Object>> results = map(rs);
+			results = map(rs);
 			printTable(results);
 			close(con); /* close connection to server */
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return results;
 	}
 
 	public void deleteRowfromServer(String tableName, String loc) {
