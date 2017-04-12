@@ -115,7 +115,7 @@ public class SurveyMgr
          importances[i]= questions[i].getImportance();
       }
       
-      Result output= new Result(choice,importances);
+      Result output= new Result(choices,importances);
       
       return(output);
    }   
