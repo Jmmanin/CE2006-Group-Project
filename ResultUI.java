@@ -196,6 +196,7 @@ public class ResultUI
          else if(e.getActionCommand().equals("local"))
          {
             JOptionPane.showMessageDialog(null ,"You clicked on the \"Local\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
+            serverMgr.saveLocal(username,theResult);
          } 
          else if(e.getActionCommand().equals("both"))
          {

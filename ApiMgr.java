@@ -10,11 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-<<<<<<< HEAD
-
-=======
 import java.util.ArrayList;
->>>>>>> origin/master
 
 public class ApiMgr
 {

@@ -11,20 +11,86 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-<<<<<<< HEAD
 
 public class ServerMgr {
-	public ServerMgr() {
+	public ServerMgr()
+   {
 
 	}
 
-	public void saveLocal() {
+   public void saveLocal(String username, Result theResult)
+   {
+      DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+      Date date = new Date();
+      String filename= new String(username + dateFormat.format(date) + ".txt");
+      File data= new File(filename);
+      File list= new File("_resultList.txt");      
+      FileOutputStream dataOut= null, listOut= null;
+      ObjectOutputStream dataWriter= null, listWriter= null;
+      
+      try
+      {
+         dataOut= new FileOutputStream(data, false);
+         listOut= new FileOutputStream(list, true);
+         dataWriter= new ObjectOutputStream(dataOut);
+         listWriter= new ObjectOutputStream(listOut);
+         
+         listWriter.writeObject(filename);
+         dataWriter.writeObject(theResult);            
+      
+         dataWriter.close();
+         listWriter.close();
+         dataOut.close();
+         listOut.close();
+      }
+      catch(IOException e)
+      {
+         e.printStackTrace();
+      }      
+   }
 
-	}
+   public ArrayList<String> loadLocalList()
+   {
+      ArrayList<String> output= new ArrayList<String>();
+      File list= new File("_resultList.txt");
+      FileInputStream listIn= null;
+      ObjectInputStream listReader= null;
+      
+      try
+      {
+         listIn= new FileInputStream(list);
+         listReader= new ObjectInputStream(listIn);
+         
+         while(true)
+         {
+            try
+            {
+               output.add((String)listReader.readObject());
+            }
+            catch(EOFException e2)
+            {
+               listReader.close();
+               listIn.close();
+               break;
+            }
+            catch(ClassNotFoundException e2)
+            {
+               e2.printStackTrace();   
+            }
+         }
+      }
+      catch(IOException e)
+      {
+         return(output);
+      }
+            
+      return(output);  
+   }
 
-	public void loadLocal() {
-
-	}
+   public void loadLocal()
+   {
+   
+   }
 
 	public int saveRowtoServer(String tableName, String values) {
 		int status = 0;
@@ -238,16 +304,20 @@ public class ServerMgr
 
    public void saveLocal(String username, Result theResult)
    {
-      DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+      DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
       Date date = new Date();
-      String filename= new String(username + dateFormat.format(date) + ".txt");
+      String filename= new String("/results/" + username + dateFormat.format(date) + ".txt");
       File data= new File(filename);
-      File list= new File("_resultList.txt");      
+      File list= new File("/results/_resultList.txt");      
       FileOutputStream dataOut= null, listOut= null;
       ObjectOutputStream dataWriter= null, listWriter= null;
       
       try
       {
+         if(!data.exists())
+            data.createNewFile();
+         if(!list.exists())
+            list.createNewFile();   
          dataOut= new FileOutputStream(data, false);
          listOut= new FileOutputStream(list, true);
          dataWriter= new ObjectOutputStream(dataOut);
@@ -270,7 +340,7 @@ public class ServerMgr
    public ArrayList<String> loadLocalList()
    {
       ArrayList<String> output= new ArrayList<String>();
-      File list= new File("_resultList.txt");
+      File list= new File("/results/_resultList.txt");
       FileInputStream listIn= null;
       ObjectInputStream listReader= null;
       
