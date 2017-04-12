@@ -33,7 +33,7 @@ public class SurveyUI
 
    public SurveyUI(String uN, ServerMgr sM)
    {         
-      startFrame= new JFrame("SurveyUI Test");
+      startFrame= new JFrame("Dream Course Finder");
       startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       startFrame.setLayout(new BoxLayout(startFrame.getContentPane(), BoxLayout.X_AXIS));
       startFrame.setResizable(false);
@@ -41,7 +41,7 @@ public class SurveyUI
       leftPanel= new JPanel();
       leftPanel.setLayout(new FlowLayout());
          
-      splashIcon= new ImageIcon(getImageFile("TestImage.png"));   
+      splashIcon= new ImageIcon(getImageFile("splash.png"));   
       splashLabel= new JLabel(splashIcon);
       leftPanel.add(splashLabel);
             
@@ -123,6 +123,7 @@ public class SurveyUI
          else
          {
             startFrame.setVisible(false);
+            startFrame.dispose();
             new LoadDialog();
          }
       }
@@ -140,7 +141,8 @@ public class SurveyUI
       private DefaultListModel<String> localModel;
       private JList<String> localList;
       private JScrollPane localScroller;
-      private JButton loadButton;
+      private JButton loadServerButton;
+      private JButton loadLocalButton;
       private JButton backButton;
       private JLabel cpLabel2;
       
@@ -192,9 +194,9 @@ public class SurveyUI
          leftPanel.add(localLabel);
                   
          localModel= new DefaultListModel<String>();
-         localModel.addElement("Jane Doe");
-         localModel.addElement("John Smith");
-         localModel.addElement("Kathy Green");
+         String[] localResults= serverMgr.loadLocalList();
+         for(int i=0;i<localResults.length;i++)
+            localModel.addElement(localResults[i]);
       
          localList= new JList<String>(localModel);
          localList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -213,12 +215,19 @@ public class SurveyUI
          rightPanel= new JPanel();
          rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
                   
-         loadButton= new JButton("Load");
-         loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-         loadButton.setActionCommand("load");
-         loadButton.addActionListener(this);
+         loadServerButton= new JButton("Load Server");
+         loadServerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         loadServerButton.setActionCommand("loadserver");
+         loadServerButton.addActionListener(this);
          rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
-         rightPanel.add(loadButton);
+         rightPanel.add(loadServerButton);
+      
+         loadLocalButton= new JButton("Load Local");
+         loadLocalButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+         loadLocalButton.setActionCommand("loadlocal");
+         loadLocalButton.addActionListener(this);
+         rightPanel.add(Box.createRigidArea(new Dimension(0,10)));
+         rightPanel.add(loadLocalButton);
       
          backButton= new JButton("Back");
          backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -241,17 +250,43 @@ public class SurveyUI
       
       public void actionPerformed(ActionEvent e)
       {
-         if(e.getActionCommand().equals("load"))
+         if(e.getActionCommand().equals("loadserver"))
          {
-            JOptionPane.showMessageDialog(null ,"You clicked on the \"Load\" button.", "Hello", JOptionPane.WARNING_MESSAGE);          
-            System.out.println(serverList.getSelectedIndex() + " " + "\n" + localList.getSelectedIndex());
+            if(serverList.getSelectedIndex()>-1)
+            {
+               startFrame.dispose();
+               setVisible(false);
+               dispose();
+               try
+               {
+                  new ResultUI(username, serverMgr, serverMgr.loadSerialRow(serverModel.get(serverList.getSelectedIndex())));
+               }
+               catch(Exception e2)
+               {
+                  e2.printStackTrace();
+               }
+            }
+            else
+               JOptionPane.showMessageDialog(this ,"Please select an option.", "Load Error", JOptionPane.ERROR_MESSAGE);          
+         }
+         else if(e.getActionCommand().equals("loadlocal"))
+         {
+            if(localList.getSelectedIndex()>-1)
+            {
+               startFrame.dispose();
+               setVisible(false);
+               dispose();
+               new ResultUI(username, serverMgr, serverMgr.loadLocal(localModel.get(localList.getSelectedIndex())));
+            }
+            else
+               JOptionPane.showMessageDialog(this ,"Please select an option.", "Load Error", JOptionPane.ERROR_MESSAGE);          
          }
          else
          {
             setVisible(false);
             dispose();
             startFrame.setVisible(true);
-         }
+         }   
       }
    }
       
@@ -373,7 +408,7 @@ public class SurveyUI
             }
             else
             {
-               JOptionPane.showMessageDialog(null ,"All questions answered.", "HELLO", JOptionPane.WARNING_MESSAGE);          
+               JOptionPane.showMessageDialog(null ,"Survey completed!\nPress ok to proceed\nto the results screen.", "All Done", JOptionPane.INFORMATION_MESSAGE);          
                Result theResult= surveyMgr.createResult();
                ApiMgr apiMgr= new ApiMgr();
                apiMgr.processRawChoices(theResult);
