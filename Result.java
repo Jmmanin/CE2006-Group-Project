@@ -69,7 +69,5 @@ public class Result
    public void setRecommended(String[] rec)
    {
       recommended = rec;
-      for(int i=0;i<recommended.length;i++)
-         System.out.println(recommended[i] + " ");
    }
 }
