@@ -10,11 +10,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-<<<<<<< HEAD
-
-=======
 import java.util.ArrayList;
->>>>>>> origin/master
+import java.util.Arrays;
 
 public class ApiMgr
 {
@@ -22,8 +19,7 @@ public class ApiMgr
    {
    
    }
-   
-      
+  
    public void getGradEmploymentSurvey() throws IOException {	
    
       final String FILENAME = "grademploymentsurvey.txt"; /* save to txt */
@@ -244,9 +240,9 @@ public class ApiMgr
    
    public void processRawChoices(Result r){
       String[] processed = new String[r.getQuestionNum()-1];
-      String course, salary, location, employRate, workHours, workEnv, courseImpt, salaryImpt, employRateImpt, locationImpt, workHoursImpt, workEnvImpt;
-         
-       /* this if branch checks for major*/
+      String course, salary, location, employRate, workHours, workEnv;
+      course = salary = location = employRate = workHours = workEnv = "";
+      /* this if branch checks for major*/
       switch (r.getRawChoice(0)) {
          case 0:
            // engineering
@@ -563,8 +559,10 @@ public class ApiMgr
    public void courseFinder(Result r) throws IOException {
       BufferedReader br = new BufferedReader(new FileReader("Records.txt"));
       String temp[] = new String[13];
+      String[] temp1 = new String[13];
       List<String[]> searchResults = new ArrayList<String[]>();
-      String course, temp2;
+      String course, temp2, change;
+      Boolean done = false;
       course = r.getProcessedChoice(0); // get the search parameter
       int salaryImpt = r.getProcessedImportance(1);
       int employRateImpt = r.getProcessedImportance(2);
@@ -577,6 +575,26 @@ public class ApiMgr
       while((temp2= br.readLine()) != null){
          temp2 = temp2.replaceAll(", $", "");
          temp = temp2.split(",");
+         if(temp.length >13){
+            int j = 0;
+            for(int i = 0; i<temp.length;i++){
+               if((temp[i].trim().equals("Art"))||(temp[i].trim().equals("College of Humanities"))){
+                  change = temp[i] + ", " + temp[i+1];
+                  temp1[j] = change;
+                  done = true;
+               }
+               else if(done == true){
+                  done = false;
+                  j++;
+                  continue;
+               }
+               else{
+                  temp1[j] = temp[i];
+                  j++;
+               }
+            }
+            temp = temp1;
+         }   
          if(course.equals("Engineering")||course.equals("Comput")||course.equals("Art")||course.equals("Human")||course.equals("Science")||course.equals("Math")){
         	 if(temp[1].trim().contains(course)){
         		 searchResults.add(temp);
@@ -600,7 +618,7 @@ public class ApiMgr
          if(temp[2].trim().equals("Arts & Social Sciences")){
             if(temp[3].trim().contains(course)){
                searchResults.add(temp);
-               if(Integer.parseInt(temp[9]).trim() > maxSalary){
+               if(Integer.parseInt(temp[9].trim()) > maxSalary){
                   maxSalary = Integer.parseInt(temp[9].trim());
                   highestSalary[0] = Integer.parseInt(temp[9].trim());
                   highestSalary[1] = count;
@@ -631,6 +649,7 @@ public class ApiMgr
             }
             count++;
          }
+         
       }
       /* comparison of importance */
       if(highestSalary[1] == Integer.parseInt(highestEmployRate[1])){ //check if it is the same record in both arrays

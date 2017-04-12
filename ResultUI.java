@@ -40,10 +40,10 @@ public class ResultUI
       leftPanel= new JPanel();
       leftPanel.setLayout(new FlowLayout());
          
-      resultArea= new JTextArea("This is the recommended course :");
+      resultArea= new JTextArea("This is the recommended course :\n");
       
-      resultArea.append("University :" + theResult.getRecommendedData(2) + "\n"); // university
-      resultArea.append("Course of study :" + theResult.getRecommendedData(3) + "\n"); // degree
+      resultArea.append("University :" + theResult.getRecommendedData(3) + "\n"); // university
+      resultArea.append("Course of study :" + theResult.getRecommendedData(2) + "\n"); // degree
       resultArea.append("Faculty :" + theResult.getRecommendedData(1) + "\n"); // faculty
       resultArea.append("Permanent employment rate :" + theResult.getRecommendedData(5) + "\n"); // permanent employment rate
       resultArea.append("Overall employment rate :" + theResult.getRecommendedData(12) + "\n"); // overall employment rate
@@ -55,7 +55,7 @@ public class ResultUI
       resultArea.append("Gross monthly salary at the 75th percentile :" + theResult.getRecommendedData(7) + "\n"); // gross monthly salary at the 75th percentile of those who pursued this degree
       resultArea.append("This data was obtained in " + theResult.getRecommendedData(10) + "\n"); // year of the record shown
       //resultArea.append(theResult.getRecommendedData(11) + "\n"); omitted as it is not relevant to search
-      resultArea.append(username);   
+   
       resultArea.setPreferredSize(new Dimension(550, 450));
       resultArea.setEditable(false);
       resultArea.setLineWrap(true);
