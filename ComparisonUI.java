@@ -53,9 +53,21 @@ public class ComparisonUI
       resultLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
       leftPanel.add(resultLabel1);
          
-      resultArea1= new JTextArea("This is a sample result");
-      resultArea1.append(result1.getRecommendedData(1));
-      resultArea1.setPreferredSize(new Dimension(400, 450));
+      resultArea1= new JTextArea("This is the recommended course :\n");
+      
+      resultArea1.append("University :" + result1.getRecommendedData(3) + "\n"); // university
+      resultArea1.append("Course of study :" + result1.getRecommendedData(2) + "\n"); // degree
+      resultArea1.append("Faculty :" + result1.getRecommendedData(1) + "\n"); // faculty
+      resultArea1.append("Permanent employment rate :" + result1.getRecommendedData(5) + "\n"); // permanent employment rate
+      resultArea1.append("Overall employment rate :" + result1.getRecommendedData(12) + "\n"); // overall employment rate
+      resultArea1.append("Basic monthly mean salary :" + result1.getRecommendedData(8) + "\n"); // basic monthly mean salary
+      resultArea1.append("Gross monthly mean salary :" + result1.getRecommendedData(9) + "\n"); // gross monthly mean salary
+      resultArea1.append("Basic monthly median salary :" + result1.getRecommendedData(6) + "\n"); // basic monthly median salary
+      resultArea1.append("Gross monthly median salary :" + result1.getRecommendedData(4) + "\n"); // gross monthly median salary
+      resultArea1.append("Gross monthy salary at the 25th percentile :" + result1.getRecommendedData(0) + "\n"); // gross monthly salary at the 25th percentile of those who pursued this degree 
+      resultArea1.append("Gross monthly salary at the 75th percentile :" + result1.getRecommendedData(7) + "\n"); // gross monthly salary at the 75th percentile of those who pursued this degree
+      resultArea1.append("This data was obtained in " + result1.getRecommendedData(10) + "\n"); // year of the record shown
+      resultArea1.setPreferredSize(new Dimension(550, 450));
       resultArea1.setEditable(false);
       resultArea1.setLineWrap(true);
       resultArea1.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -70,9 +82,21 @@ public class ComparisonUI
       resultLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
       centerPanel.add(resultLabel2);
          
-      resultArea2= new JTextArea("This is a sample comparison result");
-      resultArea2.append(result2.getRecommendedData(2));
-      resultArea2.setPreferredSize(new Dimension(400, 450));
+      resultArea2= new JTextArea("This is the recommended course :\n");
+      
+      resultArea2.append("University :" + result2.getRecommendedData(3) + "\n"); // university
+      resultArea2.append("Course of study :" + result2.getRecommendedData(2) + "\n"); // degree
+      resultArea2.append("Faculty :" + result2.getRecommendedData(1) + "\n"); // faculty
+      resultArea2.append("Permanent employment rate :" + result2.getRecommendedData(5) + "\n"); // permanent employment rate
+      resultArea2.append("Overall employment rate :" + result2.getRecommendedData(12) + "\n"); // overall employment rate
+      resultArea2.append("Basic monthly mean salary :" + result2.getRecommendedData(8) + "\n"); // basic monthly mean salary
+      resultArea2.append("Gross monthly mean salary :" + result2.getRecommendedData(9) + "\n"); // gross monthly mean salary
+      resultArea2.append("Basic monthly median salary :" + result2.getRecommendedData(6) + "\n"); // basic monthly median salary
+      resultArea2.append("Gross monthly median salary :" + result2.getRecommendedData(4) + "\n"); // gross monthly median salary
+      resultArea2.append("Gross monthy salary at the 25th percentile :" + result2.getRecommendedData(0) + "\n"); // gross monthly salary at the 25th percentile of those who pursued this degree 
+      resultArea2.append("Gross monthly salary at the 75th percentile :" + result2.getRecommendedData(7) + "\n"); // gross monthly salary at the 75th percentile of those who pursued this degree
+      resultArea2.append("This data was obtained in " + result2.getRecommendedData(10) + "\n"); // year of the record shown
+      resultArea2.setPreferredSize(new Dimension(550, 450));
       resultArea2.setEditable(false);
       resultArea2.setLineWrap(true);
       resultArea2.setAlignmentX(Component.CENTER_ALIGNMENT);

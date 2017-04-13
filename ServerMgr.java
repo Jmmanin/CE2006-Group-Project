@@ -430,17 +430,29 @@ public class ServerMgr
    	 */
       ResultSet rs = selectQuery(tableName, loc, con);
       List<Map<String, Object>> results = map(rs);
-      while (rs.next()) {
-         byte[] st = (byte[]) rs.getObject(1);
-         ByteArrayInputStream baip = new ByteArrayInputStream(st);
-         ObjectInputStream ois = new ObjectInputStream(baip);
-         result = (Result) ois.readObject();
+      ///while (rs.next()) {
+      ///   byte[] st = (byte[]) rs.getObject(1);
+      //   ByteArrayInputStream baip = new ByteArrayInputStream(st);
+      //   ObjectInputStream ois = new ObjectInputStream(baip);
+      //   result = (Result) ois.readObject();
+      //}
+      Map<String, Object> temp = new HashMap<String, Object>();
+      for (int i = 1; i <= results.size(); i++) {
+         temp = results.get(i - 1);
+         for (Map.Entry<String, Object> entry : temp.entrySet()) {
+            System.out.format("| %5s = %10s |", entry.getKey(), entry.getValue());
+            if (entry.getKey().equals("serial")){
+               byte[] st = (byte[]) entry.getValue();
+               ByteArrayInputStream baip = new ByteArrayInputStream(st);
+               ObjectInputStream ois = new ObjectInputStream(baip);
+               result = (Result) ois.readObject();
+            }
+         }
+      
       }
       con.close();
-      rs.close();
       return result;
-   }
-	
+   }   	
    public static void main(String args[]) throws ClassNotFoundException, SQLException, IOException { 
    //       ServerMgr example= new ServerMgr();
    //       
@@ -451,8 +463,8 @@ public class ServerMgr
    //       String loc = "id = 4";
    //       String title = "testtitle";
    //       String serial = "testserial";
-   //    	//example.saveSerial(title); //These method calls need to be updated
-   //    	//example.loadSerial("tokyoowl");
+   //    	example.saveSerial(title); //These method calls need to be updated
+   //    	example.loadSerial("tokyoowl");
    
    }
 }
